@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 # Create your views here.
 def index():
-    print("Hello")
+    print("Hello World")
