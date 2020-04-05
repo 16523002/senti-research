@@ -1,0 +1,105 @@
+{% include "landing/includes/landing-header.html" %}
+{% load static %}
+<body>
+{% block content %}
+
+{% include "landing/includes/landing-navbar.html" %}
+    <header class="masthead">
+        <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-lg-5 my-auto">
+            <div class="header-content mx-auto">
+                <h1 class="mb-5">Analyzing your Qualitative Research with SentiResearch!</h1>
+                <a href="#about" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>
+            </div>
+            </div>
+            <div class="col-lg-7 my-auto">
+            <div class="device-container">
+                <div class="device-mockup imac portrait white">
+                <div class="device">
+                    <div class="screen">
+                    <img src="{% static 'landing/img/head-bg.png' %}" class="img-fluid" alt="">
+                    </div>
+                    <div class="button">
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <section class="about bg-primary text-center" id="about">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+            <h2 class="section-heading">Power your team with SentiResearch</h2>
+            <p>SentiResearch is a collaborative qualitative research management to help the research team in your company
+            get insights way a lot easier than ever!</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+        <div class="section-heading text-center">
+            <h2>Unleash your team’s collaborative potential!</h2>
+            <p class="text-muted">Check out what you can do with SentiResearch web app!</p>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-lg-7 my-auto">
+            <div class="device-container">
+                <div class="device-mockup macbook">
+                <div class="device">
+                    <div class="screen">
+                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                    <img src="{% static 'landing/img/head-bg.png' %}" class="img-fluid" alt="">
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-5 my-auto">
+            <div class="container-fluid">
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="feature-item">
+                    <i class="icon-people text-primary"></i>
+                    <h3>Researcher Collaboration</h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="feature-item">
+                    <i class="icon-pie-chart text-primary"></i>
+                    <h3>Sentiment Analysis</h3>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="feature-item">
+                    <i class="icon-calendar text-primary"></i>
+                    <h3>Scheduling Research</h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="feature-item">
+                    <i class="icon-note text-primary"></i>
+                    <h3>Note Taking</h3>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    {% include "landing/includes/landing-footer.html" %}
+
+{% endblock %}
+</body>
+</html>

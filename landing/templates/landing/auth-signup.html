@@ -1,0 +1,49 @@
+{% include "landing/includes/auth-header.html" %}
+{% load static %}  
+<head>
+    <title>SignUp - SentiResearch</title>
+</head>
+
+<body class="form-sr">
+	<div class="page-content">
+		<div class="form-sr-content">
+			<form class="form-detail" action="{% url 'signup' %}" method="POST" id="myform">
+                {% csrf_token %}
+
+				<div class="form-left">
+					<div class="auth-image">
+                        <figure><img src="{% static 'landing/img/head-txt.png' %}" alt="text image"></figure>
+                        <figure><img src="{% static 'landing/img/auth2.png' %}" alt="sing in image"></figure>
+                    </div>
+				</div>
+				<div class="form-right">
+					<h2>Create an Account</h2>
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							{{ usersignup_form.first_name }}
+						</div>
+						<div class="form-row form-row-2">
+							{{ usersignup_form.last_name }}
+						</div>
+					</div>
+					<div class="form-row">
+                        {{ usersignup_form.email }}
+                        {{message}}
+					</div>
+					<div class="form-row">
+						{{ usersignup_form.password }}
+                    </div>
+					<div class="form-row-last">
+						<div class="form-row">
+							<input type="submit" name="register" class="register" value="Sign up">
+							<br><p>Already have an account? <a href="{% url 'signin' %}" class="pagelink">Sign in</a>
+						</div>
+						<div class="form-row">
+							<input type="google" name="register" class="register" value="Sign up with Google">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>

@@ -8,18 +8,23 @@ class Company(models.Model):
     registerer_email = models.EmailField()
     registerer_role = models.CharField(max_length=100)
     company_domain = models.CharField(max_length=255)
+    status_domain = models.BooleanField(default=False)
+
+    def __str__(self):
+        activate_status =  'Activated' if self.status_domain == True else 'Not Activated' 
+        return self.company_name + ' (Company Domain: ' + activate_status + ')'
 
 class Role(models.Model):
     role_title = models.CharField(max_length=50)
 
-class Employee(models.Model):
-    employee_first_name = models.CharField(max_length=100)
-    employee_last_name = models.CharField(max_length=100)
+class User(models.Model):
+    user_first_name = models.CharField(max_length=100)
+    user_last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
-    photo = models.ImageField()
-    google_id = models.CharField(max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    photo = models.ImageField(null=True)
+    google_id = models.CharField(max_length=255, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
 
 
@@ -29,7 +34,7 @@ class ResearchProject(models.Model):
     rp_time_start = models.DateField()
     rp_time_end = models.DateField()
     rp_created_at = models.DateField('created at')
-    rp_created_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    rp_created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     
 class ResearchRespondent(models.Model):

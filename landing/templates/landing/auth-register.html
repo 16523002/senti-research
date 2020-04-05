@@ -1,0 +1,55 @@
+{% include "landing/includes/auth-header.html" %}
+{% load static %}  
+<head>
+    <title>Register Enterprise - SentiResearch</title>
+</head>
+
+<body class="form-sr">
+    <div class="page-content">
+        <div class="form-sr-content">
+            <form class="form-detail" method="POST" id="myform">
+                {% csrf_token %}
+                
+                <div class="form-left">
+                    <div class="auth-image">
+                        <figure><img src="{% static 'landing/img/head-txt.png' %}" alt="text image"></figure>
+                    </div>
+                    <div class="form-row">
+                        <h3>Collaborative Team Work</h3>
+                        <h4>Manage research projects with flexible and collaborative workflows within your team.</h4>
+                        <h4>Register your team or company to get the most value from SentiResearch!</h4>
+                    </div>
+                </div>
+                <div class="form-right">
+                    <h2>Registration</h2>
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            {{ register_form.first_name }}
+                        </div>
+                        <div class="form-row form-row-2">
+                            {{ register_form.last_name }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        {{ register_form.email }}
+                    </div>
+                    <div class="form-row">
+                        {{ register_form.company_name }}
+                    </div>
+                    <div class="form-row">
+                        {{ register_form.registerer_role }}
+                        <span class="select-btn">
+                            <i class="zmdi zmdi-chevron-down"></i>
+                        </span>
+                    </div>
+                    <div class="form-row">
+                        {{ register_form.company_domain }}
+                    </div>
+                    <div class="form-row-last">
+                        <input type="submit" name="register" class="register" value="Register">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
