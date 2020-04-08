@@ -21,7 +21,7 @@ def signin(request):
 			if auth == None:
 				print("FAILED SIGN IN")
 				return redirect('signin')
-			return redirect('index')
+			return redirect('workspace')
 	return redirect('signin')
 
 def signup(request):
