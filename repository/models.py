@@ -9,6 +9,7 @@ class Company(models.Model):
     registerer_role = models.CharField(max_length=100)
     company_domain = models.CharField(max_length=255)
     status_domain = models.BooleanField(default=False)
+    # company_registered_at = models.DateField('registered at')
 
     def __str__(self):
         activate_status =  'Activated' if self.status_domain == True else 'Not Activated' 
@@ -33,8 +34,9 @@ class ResearchProject(models.Model):
     rp_desc = models.TextField()
     rp_time_start = models.DateField()
     rp_time_end = models.DateField()
-    rp_created_at = models.DateField('created at')
+    rp_created_at = models.DateField('created at', auto_now_add=True)
     rp_created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    rp_updated_at = models.DateTimeField(auto_now=True)
     
     
 class ResearchRespondent(models.Model):
@@ -45,6 +47,7 @@ class ResearchRespondent(models.Model):
         (female, 'Female'),
     )
     rr_name = models.CharField(max_length=255)
+    rr_bod = models.DateField(null=True)
     rr_phone = models.CharField(max_length=50)
     rr_email = models.EmailField(null=True)
     rr_occupation = models.CharField(max_length=255)
@@ -52,6 +55,8 @@ class ResearchRespondent(models.Model):
         max_length=2,
         choices=gender
     )
+    rr_registered_at = models.DateField('registered at', auto_now_add=True)
+    rr_updated_at = models.DateTimeField(auto_now=True)
     research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE)
     
 

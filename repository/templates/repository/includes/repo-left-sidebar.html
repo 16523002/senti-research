@@ -6,7 +6,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="index.html" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link" href="{% url 'workspace' %}" aria-expanded="false">
                                 <i data-feather="home" class="feather-icon"></i>
                                 <span class="hide-menu">Workspace</span>
                             </a>
@@ -14,16 +14,22 @@
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Projects</span></li>
                         <li class="sidebar-item"> 
+                            <a class="sidebar-link sidebar-link" href="{% url 'researchbrief' %}" aria-expanded="false">
+                                <i data-feather="help-circle" class="feather-icon"></i>
+                                <span class="hide-menu">Research Brief</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item"> 
                             <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="file-text" class="feather-icon"></i>
                                 <span class="hide-menu">Research Projects</span>
                             </a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="form-inputs.html" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="{% url 'researchnew' %}" class="sidebar-link"><span
                                             class="hide-menu"> Create New
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="{% url 'researchlist' %}" class="sidebar-link"><span
                                             class="hide-menu"> Table Projects
                                         </span></a>
                                 </li>
@@ -35,27 +41,33 @@
                                 <span class="hide-menu">Respondents</span>
                             </a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="form-inputs.html" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="{% url 'respondentnew' %}" class="sidebar-link"><span
                                             class="hide-menu"> New Respondents
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                            class="hide-menu"> Table Respondents
-                                        </span></a>
+                                <li class="sidebar-item"><a href="{% url 'respondentlist' %}" class="sidebar-link"><span
+                                    class="hide-menu"> Table Respondents
+                                </span></a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-calendar.html"
-                                aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
-                                    class="hide-menu">Calendar</span></a></li>
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link sidebar-link" href="{% url 'calendar' %}"  aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Calendar</span>
+                            </a>
+                        </li>
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Extra</span></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
                                 aria-expanded="false"><i data-feather="settings" class="feather-icon"></i><span
                                     class="hide-menu">Settings</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
-                                aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
-                                    class="hide-menu">Logout</span></a></li>
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
+                                <i data-feather="log-out" class="feather-icon"></i>
+                                <span class="hide-menu">Logout</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

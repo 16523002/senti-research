@@ -1,0 +1,39 @@
+{% block content%}
+ <!--  Modal content for the above example -->
+ <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
+ aria-labelledby="myLargeModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+         <div class="modal-header">
+             <h4 class="modal-title" id="myLargeModalLabel">Edit Profile</h4>
+             <button type="button" class="close" data-dismiss="modal"
+                 aria-hidden="true">×</button>
+         </div>
+         <div class="modal-body">
+             <form action="#">
+                 <div class="form-body">
+                     <div class="form-group row">
+                         <label class="col-md-2">Name:</label>
+                         <div class="col-md-10">
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div class="form-group">
+                                         <input type="text" class="form-control" placeholder="Name Your Research Project">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>       
+                 </div>
+                 <div class="form-actions">
+                     <div class="text-right">
+                         <button type="submit" class="btn btn-info">Submit</button>
+                         <button type="reset" class="btn btn-dark">Reset</button>
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div><!-- /.modal-content -->
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}

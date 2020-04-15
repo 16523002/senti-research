@@ -7,8 +7,8 @@ def workspace(request):
 def profileview(request): 
     return render(request, 'repository/profile-view.html') 
 
-def profileedit(request): 
-    return render(request, 'repository/profile-edit.html') 
+def researchbrief(request):
+     return render(request, 'repository/research-brief.html')
 
 def researchnew(request):
      return render(request, 'repository/research-new.html')
@@ -39,5 +39,8 @@ def questionadd(request):
 
 def questionedit(request):
     return render(request, 'respository/question-edit.html') 
+
+def calendar(request):
+    return render(request, 'respository/calendar.html') 
 
 
