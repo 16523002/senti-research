@@ -1,8 +1,30 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from repository import models
 # Create your views here.
-def workspace(request): 
-    return render(request, 'repository/workspace.html') 
+def workspace(request):
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
+     projects_count = models.ResearchProject.objects.filter(rp_of_company=user.company).count()
+     
+     return render(request, 'repository/workspace.html', {'user': user, 'projects_count': projects_count}) 
+
+def is_auth(request):
+     id_user = request.session.get('authenticated_user_id', 0)
+     if id_user == 0:
+          print(id_user)
+          return None 
+     user = models.User.objects.get(pk=id_user)     
+     return user
+
+def logout(request):
+     request.session.modified = True
+     try:
+          print(request.session['authenticated_user_id'])
+          del request.session['authenticated_user_id']
+     except KeyError:
+          pass
+     return redirect('signin')
 
 def profileview(request): 
     return render(request, 'repository/profile-view.html') 

@@ -16,4 +16,5 @@ urlpatterns = [
     path('workspace/question-add/', views.questionadd, name='questionadd'),#this is the page to add questions to the project
     path('workspace/question-edit/', views.questionedit, name='questionedit'), #this is the page to edit questions
     path('workspace/calendar/', views.calendar, name='calendar'), #this is the calendar page
+    path('logout/', views.logout, name='logout'), #logout
 ]

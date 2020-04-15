@@ -6,7 +6,6 @@ class Company(models.Model):
     company_name = models.CharField(max_length=255)
     registerer_name = models.CharField(max_length=255)
     registerer_email = models.EmailField()
-    registerer_role = models.CharField(max_length=100)
     company_domain = models.CharField(max_length=255)
     status_domain = models.BooleanField(default=False)
     # company_registered_at = models.DateField('registered at')
@@ -25,8 +24,12 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     photo = models.ImageField(null=True)
     google_id = models.CharField(max_length=255, null=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+
+class Request(models.Model):
+    requester = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
 class ResearchProject(models.Model):
@@ -37,7 +40,11 @@ class ResearchProject(models.Model):
     rp_created_at = models.DateField('created at', auto_now_add=True)
     rp_created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     rp_updated_at = models.DateTimeField(auto_now=True)
+    rp_of_company = models.ForeignKey(Company, on_delete=models.CASCADE)
     
+class ProjectMembers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE)    
     
 class ResearchRespondent(models.Model):
     male = 'M'

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from landing.auth import AuthBackend, hashing_password
 from landing.forms import RegisterForm, UserSignUpForm, UserSignInForm
-from repository.models import Company, User
+from repository.models import Company, User, Role
 from django.contrib.auth.hashers import make_password
-
+from django.core import serializers
+from repository.views import is_auth
 # Create your views here.
 def index(request):
 	return render(request, 'landing/landing-page.html')
@@ -21,6 +22,7 @@ def signin(request):
 			if auth == None:
 				print("FAILED SIGN IN")
 				return redirect('signin')
+			request.session['authenticated_user_id'] = auth.id
 			return redirect('workspace')
 	return redirect('signin')
 
@@ -49,21 +51,30 @@ def signup(request):
 			
 
 def register(request):
+	user = is_auth(request)
 	if request.method == 'GET':
-		forms = RegisterForm()
-		return render(request, 'landing/auth-register.html', {'register_form': forms})
+		if(user == None):
+			print("NOT SIGNIN")
+			return redirect('signin')
+		else :
+			forms = RegisterForm()
+			return render(request, 'landing/auth-register.html', {'register_form': forms, 'user': user})
 	elif request.method == 'POST':
 		form = RegisterForm(request.POST)
 		if form.is_valid():
-			registerer_name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name')
-			registerer_email = form.cleaned_data.get('email')
+			registerer_name = user.user_first_name + ' ' + user.user_last_name
+			registerer_email = user.email
 			company_name = form.cleaned_data.get('company_name')
 			registerer_role = form.cleaned_data.get('registerer_role')
 			company_domain = form.cleaned_data.get('company_domain')
 			
-			company = Company(registerer_name=registerer_name, registerer_email=registerer_email, company_name=company_name, registerer_role=registerer_role, company_domain=company_domain)
+			company = Company(registerer_name=registerer_name, registerer_email=registerer_email, company_name=company_name, company_domain=company_domain)
 			company.save()
-			return redirect('index')
+			registerer_role_object = Role.objects.get(pk=registerer_role)
+			user.role = registerer_role_object
+			user.company = company
+			user.save()
+			return redirect('workspace')
 			 
 
 	
