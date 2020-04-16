@@ -72,7 +72,8 @@ def researchlist(request):
      researchproject = models.ResearchProject.objects.filter(rp_of_company=user.company)
      return render(request, 'repository/research-list.html', {'researchproject_list': researchproject}) 
 
-def researchview(request):
+def researchview(request, pk):
+     # ambil riset projek get(pk=pk)
      return render(request, 'repository/research-view.html') 
 
 def researchedit(request):
