@@ -6,9 +6,9 @@ class Company(models.Model):
     company_name = models.CharField(max_length=255)
     registerer_name = models.CharField(max_length=255)
     registerer_email = models.EmailField()
-    company_domain = models.CharField(max_length=255)
+    company_code = models.CharField(max_length=255)
     status_domain = models.BooleanField(default=False)
-    # company_registered_at = models.DateField('registered at')
+    company_registered_at = models.DateField('registered at', auto_now_add=True)
 
     def __str__(self):
         activate_status =  'Activated' if self.status_domain == True else 'Not Activated' 
@@ -26,10 +26,14 @@ class User(models.Model):
     google_id = models.CharField(max_length=255, null=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+    user_registered_at = models.DateField('registered at', auto_now_add=True)
+    user_updated_at = models.DateTimeField(auto_now=True)
 
 class Request(models.Model):
     requester = models.ForeignKey(User, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    activate_status = models.BooleanField(default=False)
+    request_role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
 
 
 class ResearchProject(models.Model):
@@ -41,6 +45,7 @@ class ResearchProject(models.Model):
     rp_created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     rp_updated_at = models.DateTimeField(auto_now=True)
     rp_of_company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    rp_pic = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='PIC')
     
 class ProjectMembers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

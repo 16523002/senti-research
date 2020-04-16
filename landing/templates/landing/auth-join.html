@@ -7,7 +7,7 @@
 <body class="form-sr">
     <div class="page-content">
         <div class="form-sr-content">
-            <form class="form-detail" action="{% url 'register' %}" method="POST" id="myform">
+            <form class="form-detail" action="{% url 'join' %}" method="POST" id="myform">
                 {% csrf_token %}
                 
                 <div class="form-left">
@@ -16,26 +16,26 @@
                     </div>
                     <div class="form-row">
                         <h3>Collaborative Workspace</h3>
-                        <h4>Register your Company Now!</h4>
+                        <h4>Join your Company's Workspace Now!</h4>
                         <h5>Manage research projects with flexible and collaborative workflows within your team.</h5>
                         <h5>Generate insight from research never been so easy.</h5>
                         <h5>Optimise your research repository with SentiResearch.</h5>
-                        <h6>Note: <br> By registering your company's workspace this will also make you as the admin of the workspace</h6>
+                        <h6>Note: <br> By joining your company's workspace you will be able to get the access of the workspace of your company only</h6>
                     </div>
                 </div>
                 <div class="form-right">
-                    <h2>Registration</h2>
+                    <h2>Join a Workspace</h2>
                     <div class="form-row">
-                        {{ register_form.company_name }}
+                        {{ join_form.company_code }}
                     </div>
                     <div class="form-row">
-                        {{ register_form.registerer_role }}
+                        {{ join_form.user_role }}
                         <span class="select-btn">
                             <i class="zmdi zmdi-chevron-down"></i>
                         </span>
                     </div>
                     <div class="form-row-last">
-                        <input type="submit" name="register" class="register" value="Register">
+                        <input type="submit" name="register" class="register" value="Request to Join">
                     </div>
                 </div>
             </form>

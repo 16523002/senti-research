@@ -1,5 +1,6 @@
 {% block content%}
-<form action="#">
+<form method="POST">
+    {% csrf_token %}
     <div class="form-body">
         <div class="form-group row">
             <label class="col-md-2">Name/Title:</label>
@@ -7,7 +8,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            {{ researchproject_form.rp_title }}
                         </div>
                     </div>
                 </div>
@@ -20,7 +21,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="form-group">
-                                <textarea class="form-control" rows="3" placeholder="Describe Your Research Project..."></textarea>
+                                {{ researchproject_form.rp_desc }}
                             </div>
                         </div>
                     </div>
@@ -35,14 +36,14 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <h6 class="card-subtitle">Start</h6>
-                                <input type="date" class="form-control" value="2018-05-13">
+                                {{ researchproject_form.rp_time_start }}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <h6 class="card-subtitle">Deadline</h6>
-                            <input type="date" class="form-control" value="2018-05-13">
+                            {{ researchproject_form.rp_time_end }}
                         </div>
                     </div>
                 </div>
@@ -55,10 +56,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <h6 class="card-subtitle">Person in Charge</h6>
-                                 <input type="text" class="form-control" placeholder="Enter PIC's Name">    
+                            {{ researchproject_form.rp_pic }} 
+                            {{message}}  
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <h6 class="card-subtitle">Members</h6>
                             <div class="form-group row">
@@ -68,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

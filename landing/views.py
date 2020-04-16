@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from landing.auth import AuthBackend, hashing_password
-from landing.forms import RegisterForm, UserSignUpForm, UserSignInForm
-from repository.models import Company, User, Role
+from landing.forms import RegisterForm, UserSignUpForm, UserSignInForm, JoinForm
+from repository.models import Company, User, Role, Request
 from django.contrib.auth.hashers import make_password
 from django.core import serializers
 from repository.views import is_auth
+import uuid 
+
+
 # Create your views here.
 def index(request):
 	return render(request, 'landing/landing-page.html')
@@ -54,27 +57,50 @@ def register(request):
 	user = is_auth(request)
 	if request.method == 'GET':
 		if(user == None):
-			print("NOT SIGNIN")
 			return redirect('signin')
 		else :
 			forms = RegisterForm()
 			return render(request, 'landing/auth-register.html', {'register_form': forms, 'user': user})
 	elif request.method == 'POST':
+		print("Hello")
 		form = RegisterForm(request.POST)
 		if form.is_valid():
 			registerer_name = user.user_first_name + ' ' + user.user_last_name
 			registerer_email = user.email
 			company_name = form.cleaned_data.get('company_name')
 			registerer_role = form.cleaned_data.get('registerer_role')
-			company_domain = form.cleaned_data.get('company_domain')
+			company_code = uuid.uuid4().hex[:6].upper()
 			
-			company = Company(registerer_name=registerer_name, registerer_email=registerer_email, company_name=company_name, company_domain=company_domain)
+			company = Company(registerer_name=registerer_name, registerer_email=registerer_email, company_name=company_name, company_code=company_code)
 			company.save()
 			registerer_role_object = Role.objects.get(pk=registerer_role)
 			user.role = registerer_role_object
 			user.company = company
 			user.save()
 			return redirect('workspace')
-			 
+		else:
+			return redirect('register')
+
+def join(request):
+	user = is_auth(request)
+	if request.method == 'GET':
+		if(user == None):
+			return redirect('signin')
+		else :
+			forms = JoinForm()
+			return render(request, 'landing/auth-join.html', {'join_form': forms, 'user': user})
+	elif request.method == 'POST':
+		form = JoinForm(request.POST)
+		if form.is_valid():
+			user_role = form.cleaned_data.get('user_role')
+			company_code = form.cleaned_data.get('company_code')
+			company = Company.objects.get(company_code=company_code)
+			if(company == None):
+				forms = JoinForm()
+				return render(request, 'landing/auth-join.html', {'join_form': forms, 'message': 'Company code does not match'})
+			role = Role.objects.get(pk=user_role)
+			request = Request(company=company, requester=user, request_role=role)
+			request.save()
+		return redirect('workspace')
 
 	

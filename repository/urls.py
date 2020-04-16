@@ -9,6 +9,7 @@ urlpatterns = [
     path('workspace/research-list/', views.researchlist, name='researchlist'), #this is the table to see the entire list of research projects
     path('workspace/research-view/', views.researchview, name='researchview'), #this is the page to see the details of certain research project
     path('workspace/research-edit/', views.researchedit, name='researchedit'), #this is the page to edit the research project
+    path('workspace/research-delete/<str:pk>', views.researchdelete, name='researchdelete'),
     path('workspace/respondent-new/', views.respondentnew, name='respondentnew'), #this is the form to create new research respondent
     path('workspace/respondent-list/', views.respondentlist, name='respondentlist'), #this is the table to see the entire list of research respondents
     path('workspace/respondent-view/', views.respondentview, name='respondentview'), #this is the page to see the details of certain respondent
