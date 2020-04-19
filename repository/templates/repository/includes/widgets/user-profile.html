@@ -6,14 +6,14 @@
             <div class="card-body text-center">
                 <div class="profile-pic mb-3 mt-3">
                     <img src="{% static 'repository/assets/images/users/default.png' %}" width="150" class="rounded-circle" alt="user" />
-                    <h2 class="mt-3 mb-0" style="color:#000000">Daniel Kristeen</h2>
-                    <a href="mailto:danielkristeen@gmail.com">danielkristeen@gmail.com</a>
+                    <h2 class="mt-3 mb-0" style="color:#000000">{{user.user_first_name}} {{user.user_last_name}}</h2>
+                    <a href="mailto:{{user.email}}">{{user.email}}</a>
                 </div>
                 <dl>
                     <dt>Company:</dt>
-                    <dd>Description Text</dd>
+                    <dd>{{user.company}}</dd>
                     <dt>Role:</dt>
-                    <dd>Description Text</dd>
+                    <dd>{{role.role_title}}</dd>
                 </dl>
             </div>
             <div class="p-4 border-top mt-3">
@@ -33,12 +33,12 @@
                     <div class="d-flex d-lg-flex d-md-block align-items-center">
                         <div>
                             <div class="d-inline-flex align-items-center">
-                                <h2 class="text-dark mb-1 font-weight-medium">236</h2>
+                                <h2 class="text-dark mb-1 font-weight-medium">{{project_pic_count}}</h2>
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Clients</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Research Projects as PIC</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+                            <span class="opacity-7 text-muted"><i data-feather="check-circle"></i></span>
                         </div>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                             <div class="d-inline-flex align-items-center">
                                 <h2 class="text-dark mb-1 font-weight-medium">1538</h2>
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Projects</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Research Projects as Members</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
+                            <span class="opacity-7 text-muted"><i data-feather="check-circle"></i></span>
                         </div>
                     </div>
                 </div>
@@ -72,30 +72,38 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Gender</th>
+                                <th>Name/Title</th>
+                                <th>Start</th>
+                                <th>Deadline</th>
                                 <th>Created At</th>
-                                <th>Updated At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for research in researchproject_list %}
                             <tr>
-                                <td>1</td>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
-                                <td>Edinburgh</td>
-                                <td>22</td>
-                                <td></td>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{research.rp_title}}</td>
+                                <td>{{research.rp_time_start}}</td>
+                                <td>{{research.rp_time_end}}</td>
+                                <td>{{research.rp_created_at}}</td>
+                                <td>
+                                    <div class="btn-list">
+                                        <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                        <a href="{% url 'researchdelete' pk=research.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>                                 
+                                        </div>
+                                </td>
                             </tr>
+                          
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Gender</th>
+                                <th>Name/Title</th>
+                                <th>Start</th>
+                                <th>Deadline</th>
                                 <th>Created At</th>
-                                <th>Updated At</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>

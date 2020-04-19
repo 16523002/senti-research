@@ -7,12 +7,11 @@ class Company(models.Model):
     registerer_name = models.CharField(max_length=255)
     registerer_email = models.EmailField()
     company_code = models.CharField(max_length=255)
-    status_domain = models.BooleanField(default=False)
+    status = models.BooleanField(default=False)
     company_registered_at = models.DateField('registered at', auto_now_add=True)
 
     def __str__(self):
-        activate_status =  'Activated' if self.status_domain == True else 'Not Activated' 
-        return self.company_name + ' (Company Domain: ' + activate_status + ')'
+        return self.company_name 
 
 class Role(models.Model):
     role_title = models.CharField(max_length=50)
@@ -28,6 +27,7 @@ class User(models.Model):
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     user_registered_at = models.DateField('registered at', auto_now_add=True)
     user_updated_at = models.DateTimeField(auto_now=True)
+
 
 class Request(models.Model):
     requester = models.ForeignKey(User, on_delete=models.CASCADE)

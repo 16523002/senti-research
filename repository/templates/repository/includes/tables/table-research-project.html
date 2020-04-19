@@ -31,7 +31,7 @@
                                 <td>{{research.rp_created_at}}</td>
                                 <td>
                                     <div class="btn-list">
-                                        <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                                        <a href="{% url 'researchedit' pk=research.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                         <a href="{% url 'researchdelete' pk=research.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>                                 
                                         </div>
                                 </td>

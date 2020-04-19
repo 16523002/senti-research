@@ -1,6 +1,12 @@
 from django import forms
+from django.forms import ModelForm
+from .models import ResearchProject
 import datetime
 
+# class ResearchProjectForm(ModelForm):
+#     class Meta:
+#         model = ResearchProject
+#         fields = '__all__'
 
 class DatePicker(forms.DateInput):
     input_type = 'date'
@@ -20,7 +26,5 @@ class ResearchProjectForm(forms.Form):
     rp_time_end.widget.attrs.update({'class': 'form-control', 'type': 'date'})
     rp_pic.widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter PIC\'s Email'})
 
-    # first_name.widget.attrs.update({'class':'input-text', 'placeholder':'First Name'})
-    # last_name.widget.attrs.update({'class':'input-text', 'placeholder':'Last Name'})
-    # email.widget.attrs.update({'class':'input-text', 'placeholder':'Email'})
-    # password.widget.attrs.update({'class':'input-text', 'placeholder':'Create a Password'})
+
+    
