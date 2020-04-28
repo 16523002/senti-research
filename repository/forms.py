@@ -26,5 +26,24 @@ class ResearchProjectForm(forms.Form):
     rp_time_end.widget.attrs.update({'class': 'form-control', 'type': 'date'})
     rp_pic.widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter PIC\'s Email'})
 
+class RespondentForm(forms.Form):
+    gender_choices = [
+        ('', 'Gender'),
+        ('M', 'Male'),
+        ('F', 'Female'),
+    ]
+
+    rr_name = forms.CharField(label='Name', max_length=255, required=True, help_text='Required')
+    rr_phone = forms.CharField(label='Phone', max_length=50, required=True, help_text='Required')
+    rr_email = forms.CharField(label='Email')
+    rr_occupation = forms.CharField(label='Occupation', max_length=255, required=True, help_text='Required')
+    rr_gender = forms.ChoiceField(choices=gender_choices, required=True, initial={'':'Gender'})
+    rr_birth = forms.DateField(label='Birth', required=True, help_text='Required', widget=DatePicker())
+
+    rr_name.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Name'})
+    rr_phone.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Phone Number'})
+    rr_email.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Email'})
+    rr_occupation.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Occupation'})
+    rr_birth.widget.attrs.update({'class': 'form-control', 'type': 'date'})
 
     

@@ -8,8 +8,8 @@ def workspace(request):
      if(user == None):
           return redirect('signin')
      projects_count = models.ResearchProject.objects.filter(rp_of_company=user.company).count()
-     company = models.Company.objects.get(registerer_email=user.email)
-     return render(request, 'repository/workspace.html', {'user': user, 'projects_count': projects_count, 'company':company}) 
+     # company = models.Company.objects.get(registerer_email=user.email)
+     return render(request, 'repository/workspace.html', {'user': user, 'projects_count': projects_count}) 
 
 def is_auth(request):
      id_user = request.session.get('authenticated_user_id', 0)
@@ -40,7 +40,16 @@ def profileview(request):
      # return render(request, 'repository/profile-view.html')
 
 def profileedit(request):
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
      return render(request, 'repository/profile-view.html')
+
+def requestjoin(request):
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
+     return render(request, 'repository/request-join.html')
 
 
 def researchbrief(request):
@@ -100,7 +109,7 @@ def researchedit(request, pk):
                     'rp_desc' : researchproject.rp_desc,
                     'rp_time_start' : researchproject.rp_time_start,
                     'rp_time_end' : researchproject.rp_time_end,
-                    'rp_pic' : researchproject.rp_pic })
+                    'rp_pic' : user.email })
                return render(request, 'repository/research-edit.html', {'researchproject_form': research_form, 'user': user})
      elif request.method == 'POST':
           rp_form = forms.ResearchProjectForm(request.POST)
@@ -116,11 +125,12 @@ def researchedit(request, pk):
                     company = user.company
                     researchproject.rp_of_company = company
                     researchproject.rp_created_by = user
+                    researchproject.rp_pic = pic
                     researchproject.rp_title = rp_title 
                     researchproject.rp_desc = rp_desc 
                     researchproject.rp_time_start = rp_time_start
                     researchproject.rp_time_end = rp_time_end
-                    researchproject.rp_pic = rp_pic
+                    researchproject.rp_pic = pic
                     researchproject.save()
                     return redirect('researchlist')
                except models.User.DoesNotExist :
@@ -133,20 +143,90 @@ def researchdelete(request, pk):
      if research != None:
           research.delete()
      return redirect('researchlist')
-     
-     
 
 def respondentnew(request):
-     return render(request, 'repository/respondent-new.html') 
+     # return render(request, 'repository/respondent-new.html')
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+          else :
+               respondent_form = forms.RespondentForm()
+               return render(request, 'repository/respondent-new.html', {'respondent_form': respondent_form, 'user': user})
+     elif request.method == 'POST':
+          respondent_form = forms.RespondentForm(request.POST)
+          if respondent_form.is_valid():
+               rr_name = respondent_form.cleaned_data.get('rr_name')
+               rr_phone = respondent_form.cleaned_data.get('rr_phone')
+               rr_email = respondent_form.cleaned_data.get('rr_email')
+               rr_occupation = respondent_form.cleaned_data.get('rr_occupation')
+               rr_gender = respondent_form.cleaned_data.get('rr_gender')
+               rr_birth = respondent_form.cleaned_data.get('rr_birth')
+               try:
+                    company = user.company
+                    research_respondent = models.ResearchRespondent(rr_name=rr_name, rr_phone=rr_phone,rr_email=rr_email, rr_occupation=rr_occupation, rr_gender=rr_gender, rr_birth=rr_birth)
+                    research_respondent.rr_of_company = company
+                    research_respondent.save() 
+                    return redirect('respondentlist')
+               except models.User.DoesNotExist :
+                    respondent_form = forms.RespondentForm()
+                    return render(request, 'repository/respondent-new.html', {'respondent_form': respondent_form, 'user': user})
+
 
 def respondentlist(request):
-     return render(request, 'repository/respondent-list.html') 
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
+     respondent = models.ResearchRespondent.objects.filter(rr_of_company=user.company)
+     return render(request, 'repository/respondent-list.html', {'respondent_list': respondent, 'user': user}) 
 
 def respondentview(request):
      return render(request, 'repository/respondent-view.html') 
 
-def respondentedit(request):
-     return render(request, 'repository/research-edit.html') 
+def respondentedit(request, pk):
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+          else :
+               respondent = models.ResearchRespondent.objects.get(pk=pk)
+               respondent_form = forms.RespondentForm(initial={
+                    'rr_name': respondent.rr_name,
+                    'rr_phone' : respondent.rr_phone,
+                    'rr_email' : respondent.rr_email,
+                    'rr_occupation' : respondent.rr_occupation,
+                    'rr_gender' : respondent.rr_gender,
+                    'rr_birth' : respondent.rr_birth })
+               return render(request, 'repository/respondent-edit.html', {'respondent_form': respondent_form})
+     elif request.method == 'POST':
+          rr_form = forms.RespondentForm(request.POST)
+          if rr_form.is_valid():
+               rr_name = rr_form.cleaned_data.get('rr_name')
+               rr_phone = rr_form.cleaned_data.get('rr_phone')
+               rr_email = rr_form.cleaned_data.get('rr_email')
+               rr_occupation = rr_form.cleaned_data.get('rr_occupation')
+               rr_gender = rr_form.cleaned_data.get('rr_gender')
+               rr_birth = rr_form.cleaned_data.get('rr_birth')
+               try:
+                    respondent = models.ResearchRespondent.objects.get(pk=pk)
+                    company = user.company
+                    respondent.rr_name = rr_name
+                    respondent.rr_phone = rr_phone
+                    respondent.rr_email = rr_email
+                    respondent.rr_occupation = rr_occupation
+                    respondent.rr_gender = rr_gender
+                    respondent.rr_birth = rr_birth
+                    respondent.save() 
+                    return redirect('respondentlist')
+               except models.User.DoesNotExist :
+                    respondent_form = forms.RespondentForm()
+                    return render(request, 'repository/respondent-edit.html', {'respondent_form': rr_form, 'user': user})
+
+def respondentdelete(request, pk):
+     respondent = models.ResearchRespondent.objects.get(pk=pk)
+     if respondent != None:
+          respondent.delete()
+     return redirect('respondentlist')
 
 def questionadd(request):
     return render(request, 'respository/question-add.html') 

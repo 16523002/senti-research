@@ -1,5 +1,6 @@
 {% block content%}
-<form action="#">
+<form action=""  method="POST">
+    {% csrf_token %}
     <div class="form-body">
         <div class="form-group row">
             <label class="col-md-2">Name:</label>
@@ -7,19 +8,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            {{ respondent_form.rr_name }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-2">Domicile:</label>
+            <label class="col-md-2">Date of Birth:</label>
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            {{ respondent_form.rr_birth }}
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            {{ respondent_form.rr_gender }}
                         </div>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            {{ respondent_form.rr_occupation }}
                         </div>
                     </div>
                 </div>
@@ -57,14 +58,14 @@
                         <div class="form-group">
                             <div class="form-group">
                                 <h6 class="card-subtitle">Phone Number</h6>
-                                 <input type="text" class="form-control" placeholder="Enter Respondent's Phone Number">
+                                {{ respondent_form.rr_phone }}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <h6 class="card-subtitle">Email</h6>
-                             <input type="text" class="form-control" placeholder="Enter Respondent's Email">
+                            {{ respondent_form.rr_email }}
                         </div>
                     </div>
                 </div>
