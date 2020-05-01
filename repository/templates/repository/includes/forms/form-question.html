@@ -1,21 +1,43 @@
 {% block content%}
-<form action="#">
+<form action="#" method="POST">
+    {% csrf_token %}
     <div class="form-body">
+        <div class="form-group row">
+            <label class="col-md-2">Research Name/Title:</label>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-md-2">Question:</label>
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name Your Research Project">
+                            <div class="form-row input-group">
+                                <input type="text" class="form-control" id="input-question" placeholder="Enter Research Question">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success add-form-row" type="button" onclick="addQuestions()">+</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <div class="p-4 text-center">
-                                <button type="button" class="btn btn-success btn-circle-lg">
-                                    <i class="fa fa-plus"></i> 
-                                </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2"></label>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group"id="question-list">
+                            {{ question_form.member_hidden }} 
                         </div>
                     </div>
                 </div>
@@ -30,3 +52,68 @@
     </div>
 </form>
 {% endblock %}
+
+{% block question_js %}
+<script>
+
+researchQuestionsArray = [];
+
+function addQuestions(){
+    
+    inputQuestion = document.getElementById("input-question").value;
+    questions = companyMembersEmail[i].getAttribute("data");
+
+    var researchQuestion = document.getElementsByClassName("question")
+
+    questionSection = document.createElement("div")
+    questionSection.setAttribute("class", "form-row input-group")
+        
+    researchQuestion = document.createElement("input");
+    researchQuestion.value = inputQuestion.qestion
+    researchQuestion.setAttribute("type", "text")
+    researchQuestion.setAttribute("disabled", "true")
+    researchQuestion.setAttribute("class", "form-control")
+
+    removeButton = document.createElement("button");
+    removeButton.innerHTML = "x"
+    removeButton.setAttribute("class", "btn btn-danger")
+    removeButton.setAttribute("data", getMember.email);
+    removeButton.setAttribute("onclick", "removeQuestion(this)")
+    removeButton.setAttribute("type", "button")
+
+    document.getElementById("message").innerHTML = "";
+
+    questionSection.appendChild(researchQuestion);
+    questionSection.appendChild(removeButton);
+
+    document.getElementById("question-list").appendChild(questionSection);
+
+    researchQuestionsArray.push(getQuestion);
+    setQuestion();
+
+}
+
+function removeQuestion(button){
+    question=button.getAttribute("data")
+    newArray = selectedMembersArray.filter(function(value, index, arr){
+        return value.question != question
+    });
+
+    researchQuestionsArray = newArray;
+    setQuestion()
+    button.parentNode.remove();
+}
+
+function setQuestion(){
+    value = ""
+    for(i=0;i<researchQuestionsArray.length;i++){
+        value = value + researchQuestionsArray[i].id + ";;";
+    }
+    document.getElementById("question").value = value;
+}
+
+
+</script>
+
+
+{% enblock %}

@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import ModelForm
-from .models import ResearchProject
+from django.forms import ModelForm, formset_factory, modelformset_factory
+from repository import models
 import datetime
 
 # class ResearchProjectForm(ModelForm):
@@ -18,13 +18,16 @@ class ResearchProjectForm(forms.Form):
     rp_time_start = forms.DateField(label='Date Start', required=True, help_text='Required', widget=DatePicker())
     rp_time_end = forms.DateField(label='Date End', required=True, help_text='Required', widget=DatePicker())
     rp_pic = forms.EmailField(label='PIC Email', required=True, help_text='Required')
-
+    member_hidden = forms.CharField(required=True, widget=forms.HiddenInput)
+    # rp_member = forms.EmailField(label='Member Email', required=True, help_text='Required')
     
     rp_title.widget.attrs.update({'class': 'form-control', 'placeholder': 'Name Your Research Project'})
     rp_desc.widget.attrs.update({'class':'form-control', 'placeholder':'Decribe Your Research Project' })
     rp_time_start.widget.attrs.update({'class': 'form-control', 'type': 'date'})
     rp_time_end.widget.attrs.update({'class': 'form-control', 'type': 'date'})
     rp_pic.widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter PIC\'s Email'})
+    member_hidden.widget.attrs.update({'id':'member-hidden'})
+    # rp_member.widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter Member\'s Email'})
 
 class RespondentForm(forms.Form):
     gender_choices = [
@@ -46,4 +49,13 @@ class RespondentForm(forms.Form):
     rr_occupation.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Occupation'})
     rr_birth.widget.attrs.update({'class': 'form-control', 'type': 'date'})
 
-    
+class QuestionForm(forms.Form):
+    question = forms.CharField(required=True, widget=forms.HiddenInput)
+
+    question.widget.attrs.update({'id':'question'})
+
+class AnswerForm(forms.Form):
+    answer = forms.CharField(label='Answer', required=True, help_text='Required', widget=forms.Textarea)
+
+    answer.widget.attrs.update({'class':'form-control', 'placeholder': 'Enter Answer' })
+

@@ -71,7 +71,6 @@ class ResearchRespondent(models.Model):
     rr_registered_at = models.DateField('registered at', auto_now_add=True)
     rr_updated_at = models.DateTimeField(auto_now=True)
     research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE, null=True)
-    
 
 class ResearchQuestion(models.Model):
     question = models.TextField()

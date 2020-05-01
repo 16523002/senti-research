@@ -3,9 +3,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">List of Respondents</h4>
-                <h6 class="card-subtitle">The table shown below is the list of Respondents that has been registered and assigned to certain Research Projects. 
-                    Click the Name to see the details!</h6>
+                <h4 class="card-title">List of Respondent</h4>
+                <h6 class="card-subtitle">The table shown below is the list of Respondent that has been registered for this research</h6>
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered no-wrap">
                         <thead>
@@ -19,21 +18,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for respondent in respondent_list %}
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href="{% url 'respondentview' pk=respondent.id %}">{{respondent.rr_name}}</a></td>
-                                <td>{{respondent.rr_birth}}</td>
-                                <td>{{respondent.rr_gender}}</td>
-                                <td>{{respondent.rr_registered_at}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <div class="btn-list">
-                                        <a href="{% url 'respondentedit' pk=respondent.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <a href="{% url 'respondentdelete' pk=respondent.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                                        <a href="" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                                     </div>
                                 </td>
                             </tr>
-                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -46,6 +42,9 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-success"  data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i>Add</a>
+                    </div>
                 </div>
             </div>
         </div>

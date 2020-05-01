@@ -23,7 +23,7 @@
                             {% for research in researchproject_list %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{research.rp_title}}</td>
+                                <td><a href="{% url 'researchview' pk=research.id %}">{{research.rp_title}}</a></td>
                                 <td>{{research.rp_pic.user_first_name}} {{research.rp_pic.user_last_name}}</td>
                                 <td>{{research.rp_time_start}}</td>
                                 <td>{{research.rp_time_end}}</td>

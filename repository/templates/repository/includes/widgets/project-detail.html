@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">List of Respondents</h4>
+                <h4 class="card-title">Research Project Details</h4>
                 <h6 class="card-subtitle">The table shown below is the list of Respondents that has been registered and assigned to certain Research Projects. 
                     Click the Name to see the details!</h6>
             <form action="" method="">
@@ -14,7 +14,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p>aaaa</p>
+                                        <p>{{researchproject.rp_title}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <p>aaaa</p>
+                                            <p>{{researchproject.rp_desc}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -42,14 +42,14 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <h6 class="card-subtitle">Start</h6>
-                                            <p>aaaa</p>
+                                            <p>{{researchproject.rp_time_start}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <h6 class="card-subtitle">Deadline</h6>
-                                        <p>aaaa</p>
+                                        <p>{{researchproject.rp_time_end}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="form-actions">
                     <div class="text-right">
-                        <a href="" class="btn btn-primary"><i class="fas fa-edit"></i>Edit</a>
+                        <a href="{% url 'researchedit' pk=researchproject.id %}" class="btn btn-primary"><i class="fas fa-edit"></i>Edit</a>
                     </div>
                 </div>
             </form>

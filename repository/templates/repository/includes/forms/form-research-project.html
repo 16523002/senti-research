@@ -1,5 +1,5 @@
 {% block content%}
-<form action="" method="POST">
+<form action="" method="POST" >
     {% csrf_token %}
     <div class="form-body">
         <div class="form-group row">
@@ -55,22 +55,37 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <h6 class="card-subtitle">Person in Charge</h6>
+                            <h6 class="card-subtitle">PIC</h6>
                             {{ researchproject_form.rp_pic }} 
-                            {{message}}  
                         </div>
                     </div>
-                    <!-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <h6 class="card-subtitle">Members</h6>
-                            <div class="form-group row">
+                            <h6 class="card-subtitle">Member</h6>
+                            <div class="form-row input-group">
+                                <input type="text" class="form-control" id="input-email" placeholder="Enter Member's Email">
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control" placeholder="Enter Members' Name">
-                                    <button class="btn btn-success add-form-row"><i class="fas fa-plus"></i></button>
+                                    <button class="btn btn-success add-form-row" type="button" onclick="addMembers()">+</button>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <span id="message" style="color: red;"></span>
+                            </div>
                         </div>
-                    </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2">Selected Member:</label>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-group" id="selected-member"></div>
+                            {{ researchproject_form.member_hidden }} 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,4 +97,142 @@
         </div>
     </div>
 </form>
+{% for member in company_members %}
+    <span class="memberId" data="{{ member.id }}" style="visibility: hidden;">{{ member.id }}</span>
+    <span class="memberEmail" data="{{ member.email }}" style="visibility: hidden;">{{ member.email }}</span>
+{% endfor %}
 {% endblock %}
+
+
+
+{% block member_js %}
+<script>
+selectedMembersArray = [];
+
+function updateMembers(){
+    selectedMembersEmail = document.getElementsByClassName("selectedMemberEmail");
+    selectedMembersID = document.getElementsByClassName("selectedMemberId")
+    
+    for(i = 0; i<selectedMembersEmail.length;i++){
+        email = selectedMembersEmail[i].getAttribute("data");
+        id = selectedMembersID[i].getAttribute("data");
+        member = {'email': email, 'id': id}
+        selectedMembersArray.push(member)
+    }
+
+    addSelectedMembersList()
+} 
+
+function addSelectedMembersList(){
+    for (var i = 0; i<selectedMembersArray.length;i++){
+        getMember = selectedMembersArray[i];
+        
+        memberSection = document.createElement("div")
+        memberSection.setAttribute("class", "form-row input-group")
+        
+        selectedMember = document.createElement("input");
+        selectedMember.value = getMember.email
+        selectedMember.setAttribute("type", "text")
+        selectedMember.setAttribute("disabled", "true")
+        selectedMember.setAttribute("class", "form-control")
+
+        removeButton = document.createElement("button");
+        removeButton.innerHTML = "x"
+        removeButton.setAttribute("class", "btn btn-danger")
+        removeButton.setAttribute("data", getMember.email);
+        removeButton.setAttribute("onclick", "removeMember(this)")
+        removeButton.setAttribute("type", "button")
+
+        document.getElementById("message").innerHTML = "";
+
+        memberSection.appendChild(selectedMember);
+        memberSection.appendChild(removeButton);
+
+        document.getElementById("selected-member").appendChild(memberSection);
+
+        setMembers();
+    }
+}
+
+function addMembers(){
+    members = [];
+    companyMembersEmail = document.getElementsByClassName("memberEmail");
+    companyMembersID = document.getElementsByClassName("memberId")
+    
+    for(i = 0; i<companyMembersEmail.length;i++){
+        email = companyMembersEmail[i].getAttribute("data");
+        id = companyMembersID[i].getAttribute("data");
+        member = {'email': email, 'id': id}
+        members.push(member)
+    
+    
+    }
+
+    inputEmail = document.getElementById("input-email").value;
+
+    getMember = members.find(member => member.email === inputEmail)
+    if(getMember && !selectedMembersArray.find(member => member.email === inputEmail)){
+        // console.log(getMember)
+        memberSection = document.createElement("div")
+        memberSection.setAttribute("class", "form-row input-group")
+        
+        selectedMember = document.createElement("input");
+        selectedMember.value = getMember.email
+        selectedMember.setAttribute("type", "text")
+        selectedMember.setAttribute("disabled", "true")
+        selectedMember.setAttribute("class", "form-control")
+
+        removeButton = document.createElement("button");
+        removeButton.innerHTML = "x"
+        removeButton.setAttribute("class", "btn btn-danger")
+        removeButton.setAttribute("data", getMember.email);
+        removeButton.setAttribute("onclick", "removeMember(this)")
+        removeButton.setAttribute("type", "button")
+
+        document.getElementById("message").innerHTML = "";
+
+        memberSection.appendChild(selectedMember);
+        memberSection.appendChild(removeButton);
+
+        document.getElementById("selected-member").appendChild(memberSection);
+
+        selectedMembersArray.push(getMember);
+        setMembers();
+
+    } else {
+        document.getElementById("message").innerHTML = "Email Not Found or Already Added";
+    }
+}
+
+function removeMember(button){
+    email=button.getAttribute("data")
+    newArray = selectedMembersArray.filter(function(value, index, arr){
+        return value.email != email
+    });
+
+    selectedMembersArray = newArray;
+    setMembers()
+    button.parentNode.remove();
+}
+
+function setMembers(){
+    value = ""
+    for(i=0;i<selectedMembersArray.length;i++){
+        value = value + selectedMembersArray[i].id + ",";
+    }
+    document.getElementById("member-hidden").value = value;
+}
+</script>
+
+{% if selected_users %}
+    {% for member in selected_users %}
+        <span class="selectedMemberId" data="{{ member.id }}" style="visibility: hidden;">{{ member.id }}</span>
+        <span class="selectedMemberEmail" data="{{ member.email }}" style="visibility: hidden;">{{ member.email }}</span>
+    {% endfor %}
+
+    <script>
+        updateMembers()
+    </script>
+{% endif %}
+{% endblock %}
+

@@ -61,8 +61,9 @@ def researchnew(request):
           if(user == None):
                return redirect('signin')
           else :
+               company_members = models.User.objects.filter(company=user.company)
                research_form = forms.ResearchProjectForm()
-               return render(request, 'repository/research-new.html', {'researchproject_form': research_form, 'user': user})
+               return render(request, 'repository/research-new.html', {'researchproject_form': research_form, 'user': user, 'company_members':company_members})
      elif request.method == 'POST':
           research_form = forms.ResearchProjectForm(request.POST)
           if research_form.is_valid():
@@ -71,6 +72,10 @@ def researchnew(request):
                rp_time_start = research_form.cleaned_data.get('rp_time_start')
                rp_time_end = research_form.cleaned_data.get('rp_time_end')
                rp_pic = research_form.cleaned_data.get('rp_pic')
+               member_hidden = research_form.cleaned_data.get('member_hidden')
+               selected_members_id = member_hidden.split(',')
+               selected_members_id.pop()
+               print(selected_members_id)
                try:
                     pic = models.User.objects.get(email=rp_pic)
                     company = user.company
@@ -79,6 +84,10 @@ def researchnew(request):
                     research_project.rp_created_by = user
                     research_project.rp_pic = pic
                     research_project.save()
+                    for id_member in selected_members_id:
+                         selected_user = models.User.objects.get(pk=id_member)
+                         project_member = models.ProjectMember(user=selected_user, research_project=research_project)
+                         project_member.save()
                     return redirect('researchlist')
                except models.User.DoesNotExist :
                     research_form = forms.ResearchProjectForm()
@@ -93,9 +102,15 @@ def researchlist(request):
      researchproject = models.ResearchProject.objects.filter(rp_of_company=user.company)
      return render(request, 'repository/research-list.html', {'researchproject_list': researchproject, 'user': user}) 
 
-def researchview(request):
-     # ambil riset projek get(pk=pk)
-     return render(request, 'repository/research-view.html') 
+def researchview(request, pk):
+     #  return render(request, 'repository/research-view.html')
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+     researchproject = models.ResearchProject.objects.get(pk=pk)
+     return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'user': user})     
+      
 
 def researchedit(request, pk):
      user = is_auth(request)
@@ -103,14 +118,24 @@ def researchedit(request, pk):
           if(user == None):
                return redirect('signin')
           else :
+               member_hidden = ''
+               company_members = models.User.objects.filter(company=user.company)
                researchproject = models.ResearchProject.objects.get(pk=pk)
+               projectmembers = models.ProjectMember.objects.filter(research_project=researchproject)
+               selectedUsers = []
+               for projectmember in projectmembers:
+                    # print(projectmember.user.id)
+                    selectedUsers.append(projectmember.user)
+                    member_hidden = member_hidden + str(projectmember.user.id) + ','
+               print(member_hidden)
                research_form = forms.ResearchProjectForm(initial={
                     'rp_title': researchproject.rp_title,
                     'rp_desc' : researchproject.rp_desc,
                     'rp_time_start' : researchproject.rp_time_start,
                     'rp_time_end' : researchproject.rp_time_end,
-                    'rp_pic' : user.email })
-               return render(request, 'repository/research-edit.html', {'researchproject_form': research_form, 'user': user})
+                    'rp_pic' : user.email,
+                    'member_hidden': member_hidden  })
+               return render(request, 'repository/research-edit.html', {'researchproject_form': research_form, 'user': user, 'company_members':company_members, 'selected_users': selectedUsers})
      elif request.method == 'POST':
           rp_form = forms.ResearchProjectForm(request.POST)
           if rp_form.is_valid():
@@ -119,6 +144,9 @@ def researchedit(request, pk):
                rp_time_start = rp_form.cleaned_data.get('rp_time_start')
                rp_time_end = rp_form.cleaned_data.get('rp_time_end')
                rp_pic = rp_form.cleaned_data.get('rp_pic')
+               member_hidden = rp_form.cleaned_data.get('member_hidden')
+               selected_members_id = member_hidden.split(',')
+               selected_members_id.pop()
                try:
                     researchproject = models.ResearchProject.objects.get(pk=pk)
                     pic = models.User.objects.get(email=rp_pic)
@@ -132,6 +160,11 @@ def researchedit(request, pk):
                     researchproject.rp_time_end = rp_time_end
                     researchproject.rp_pic = pic
                     researchproject.save()
+                    models.ProjectMember.objects.filter(research_project=researchproject).delete()
+                    for id_member in selected_members_id:
+                         selected_user = models.User.objects.get(pk=id_member)
+                         project_member = models.ProjectMember(user=selected_user, research_project=researchproject)
+                         project_member.save()
                     return redirect('researchlist')
                except models.User.DoesNotExist :
                     rp_form = forms.ResearchProjectForm()
@@ -180,8 +213,13 @@ def respondentlist(request):
      respondent = models.ResearchRespondent.objects.filter(rr_of_company=user.company)
      return render(request, 'repository/respondent-list.html', {'respondent_list': respondent, 'user': user}) 
 
-def respondentview(request):
-     return render(request, 'repository/respondent-view.html') 
+def respondentview(request, pk):
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+     respondent = models.ResearchRespondent.objects.get(pk=pk)
+     return render(request, 'repository/respondent-view.html', {'respondent': respondent, 'user': user})
 
 def respondentedit(request, pk):
      user = is_auth(request)
