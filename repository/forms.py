@@ -52,10 +52,15 @@ class RespondentForm(forms.Form):
 class QuestionForm(forms.Form):
     question = forms.CharField(required=True, widget=forms.HiddenInput)
 
-    question.widget.attrs.update({'id':'question'})
+    question.widget.attrs.update({'id':'question-hidden'})
 
 class AnswerForm(forms.Form):
     answer = forms.CharField(label='Answer', required=True, help_text='Required', widget=forms.Textarea)
 
     answer.widget.attrs.update({'class':'form-control', 'placeholder': 'Enter Answer' })
+
+class ProjectRespondentForm(forms.Form):
+    rp_respondent = forms.CharField(required=True, widget=forms.HiddenInput)
+
+    rp_respondent.widget.attrs.update({'id':'respondent-hidden'})
 

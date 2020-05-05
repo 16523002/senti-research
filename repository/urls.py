@@ -17,8 +17,9 @@ urlpatterns = [
     path('workspace/respondent-view/<str:pk>', views.respondentview, name='respondentview'), #TABLE:  this is the page to see the details of certain respondent
     path('workspace/respondent-edit/<str:pk>', views.respondentedit, name='respondentedit'), #FORM: this is the page to edit the research project
     path('workspace/respondent-delete/<str:pk>', views.respondentdelete, name='respondentdelete'), #this is to delete respondent
-    path('workspace/question-add/', views.questionadd, name='questionadd'),#FORM: this is the page to add questions to the project
-    path('workspace/question-edit/', views.questionedit, name='questionedit'), #FORM: this is the page to edit questions
+    path('workspace/respondent-add/', views.respondentadd, name='respondentadd'),
+    path('workspace/question-add/<str:pk>', views.questionadd, name='questionadd'),#FORM: this is the page to add questions to the project
+    path('workspace/question-delete/<str:pk>', views.questiondelete, name='questiondelete'), #FORM: this is the delete to edit questions
     path('workspace/calendar/', views.calendar, name='calendar'), #this is the calendar page
     path('logout/', views.logout, name='logout'), #logout
 ]

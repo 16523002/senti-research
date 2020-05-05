@@ -164,8 +164,6 @@ function addMembers(){
         id = companyMembersID[i].getAttribute("data");
         member = {'email': email, 'id': id}
         members.push(member)
-    
-    
     }
 
     inputEmail = document.getElementById("input-email").value;
@@ -198,7 +196,7 @@ function addMembers(){
 
         selectedMembersArray.push(getMember);
         setMembers();
-
+        console.log(selectedMembersArray)
     } else {
         document.getElementById("message").innerHTML = "Email Not Found or Already Added";
     }

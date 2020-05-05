@@ -109,7 +109,8 @@ def researchview(request, pk):
           if(user == None):
                return redirect('signin')
      researchproject = models.ResearchProject.objects.get(pk=pk)
-     return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'user': user})     
+     question = models.ResearchQuestion.objects.filter(research_project_id=pk)
+     return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'user': user, 'question_list': question})     
       
 
 def researchedit(request, pk):
@@ -205,6 +206,12 @@ def respondentnew(request):
                     respondent_form = forms.RespondentForm()
                     return render(request, 'repository/respondent-new.html', {'respondent_form': respondent_form, 'user': user})
 
+def  respondentadd(request):
+     # user = is_auth(request)
+     # respondent = models.ResearchRespondent.objects.filter(rr_of_company=user.company)
+     # if request.method == 'POST':
+     return redirect('researchview')
+
 
 def respondentlist(request):
      user = is_auth(request)
@@ -266,11 +273,37 @@ def respondentdelete(request, pk):
           respondent.delete()
      return redirect('respondentlist')
 
-def questionadd(request):
-    return render(request, 'respository/question-add.html') 
+def questionadd(request, pk):
+     # return render(request, 'repository/question-add.html')
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+          else :
+               question_form = forms.QuestionForm()
+               return render(request, 'repository/question-add.html', {'question_form': question_form, 'user': user})
+     elif request.method == 'POST':
+          question_form = forms.QuestionForm(request.POST)
+          if question_form.is_valid():
+               question = question_form.cleaned_data.get('question')
+               question_list = question.split(';;')
+               question_list.pop()
+               print(question_list)         
+               try:
+                    researchproject =  models.ResearchProject.objects.get(pk=pk)
+                    for researchquestion in question_list:
+                         project_question = models.ResearchQuestion(question=researchquestion, research_project=researchproject)
+                         project_question.save()
+                    return redirect('researchview', pk)
+               except models.ResearchProject.DoesNotExist :
+                    question_form = forms.RespondentForm()
+                    return render(request, 'repository/question-add.html', {'question_form': question_form, 'researchproject': researchproject})
 
-def questionedit(request):
-    return render(request, 'respository/question-edit.html') 
+def questiondelete(request, pk):
+     question = models.ResearchQuestion.objects.get(pk=pk)
+     if question != None:
+          question.delete()
+     return redirect('researchview')
 
 def calendar(request):
-    return render(request, 'respository/calendar.html') 
+     return render(request, 'respository/calendar.html') 

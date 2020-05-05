@@ -2,18 +2,7 @@
 <form action="#" method="POST">
     {% csrf_token %}
     <div class="form-body">
-        <div class="form-group row">
-            <label class="col-md-2">Research Name/Title:</label>
-            <div class="col-md-10">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="form-group row"></div>
         <div class="form-group row">
             <label class="col-md-2">Question:</label>
             <div class="col-md-10">
@@ -26,18 +15,21 @@
                                     <button class="btn btn-success add-form-row" type="button" onclick="addQuestions()">+</button>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <span id="message" style="color: red;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-2"></label>
+            <label class="col-md-2">Question List:</label>
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-10">
-                        <div class="form-group"id="question-list">
-                            {{ question_form.member_hidden }} 
+                        <div class="form-group" id="question-list">
+                            {{ question_form.question }} 
                         </div>
                     </div>
                 </div>
@@ -53,67 +45,70 @@
 </form>
 {% endblock %}
 
+
 {% block question_js %}
 <script>
-
 researchQuestionsArray = [];
 
-function addQuestions(){
-    
+function addQuestions(){    
     inputQuestion = document.getElementById("input-question").value;
-    questions = companyMembersEmail[i].getAttribute("data");
 
-    var researchQuestion = document.getElementsByClassName("question")
-
-    questionSection = document.createElement("div")
-    questionSection.setAttribute("class", "form-row input-group")
+    if(inputQuestion != ''){
+        document.getElementById("message").innerHTML = "";
         
-    researchQuestion = document.createElement("input");
-    researchQuestion.value = inputQuestion.qestion
-    researchQuestion.setAttribute("type", "text")
-    researchQuestion.setAttribute("disabled", "true")
-    researchQuestion.setAttribute("class", "form-control")
+        var researchQuestion = document.getElementsByClassName("question")
+    
+        questionSection = document.createElement("div")
+        questionSection.setAttribute("class", "form-row input-group")
+            
+        researchQuestion = document.createElement("input");
+        researchQuestion.value = inputQuestion
+        researchQuestion.setAttribute("type", "text")
+        researchQuestion.setAttribute("disabled", "true")
+        researchQuestion.setAttribute("class", "form-control")
+    
+        removeButton = document.createElement("button");
+        removeButton.innerHTML = "x"
+        removeButton.setAttribute("class", "btn btn-danger")
+        removeButton.setAttribute("data", inputQuestion);
+        removeButton.setAttribute("onclick", "removeQuestion(this)")
+        removeButton.setAttribute("type", "button")
+    
 
-    removeButton = document.createElement("button");
-    removeButton.innerHTML = "x"
-    removeButton.setAttribute("class", "btn btn-danger")
-    removeButton.setAttribute("data", getMember.email);
-    removeButton.setAttribute("onclick", "removeQuestion(this)")
-    removeButton.setAttribute("type", "button")
+        questionSection.appendChild(researchQuestion);
+        questionSection.appendChild(removeButton);
+        
+        document.getElementById("question-list").appendChild(questionSection);
+        document.getElementById("input-question").value = '';
+        
+        researchQuestionsArray.push(inputQuestion);
+        setQuestion();
+        console.log(researchQuestionsArray)
 
-    document.getElementById("message").innerHTML = "";
-
-    questionSection.appendChild(researchQuestion);
-    questionSection.appendChild(removeButton);
-
-    document.getElementById("question-list").appendChild(questionSection);
-
-    researchQuestionsArray.push(getQuestion);
-    setQuestion();
-
+    }else{
+        document.getElementById("message").innerHTML = "Can't leave it blank";
+    }
 }
 
 function removeQuestion(button){
     question=button.getAttribute("data")
-    newArray = selectedMembersArray.filter(function(value, index, arr){
-        return value.question != question
+    newArray = researchQuestionsArray.filter(function(value, index, arr){
+        return value != question
     });
+
+    console.log(newArray)
 
     researchQuestionsArray = newArray;
     setQuestion()
-    button.parentNode.remove();
+    button.parentNode.remove()
 }
 
 function setQuestion(){
     value = ""
     for(i=0;i<researchQuestionsArray.length;i++){
-        value = value + researchQuestionsArray[i].id + ";;";
+        value = value + researchQuestionsArray[i] + ";;";
     }
-    document.getElementById("question").value = value;
+    document.getElementById("question-hidden").value = value;
 }
-
-
 </script>
-
-
-{% enblock %}
+{% endblock %}

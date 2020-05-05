@@ -11,29 +11,32 @@
                             <tr>
                                 <th>No</th>
                                 <th>Questions</th>
-                                <th>Answer</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for questions in question_list %}
                             <tr>
-                                <td>No</td>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ questions.question }}</td>
+                                <td>
+                                    <div class="btn-list">
+                                        <a href="{% url 'questiondelete' pk=questions.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>No</th>
                                 <th>Questions</th>
-                                <th>Answer</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
-                    <div class="form-actions">
-                        <div class="text-right">
-                            <a href="" class="btn btn-success"><i class="fas fa-plus"></i>Add</a>
-                            <a href="" class="btn btn-primary"><i class="fas fa-edit"></i>Edit</a>
-                        </div>
+                    <div class="text-right">
+                        <a href="{% url 'questionadd' pk=researchproject.id %}" class="btn btn-success"><i class="fas fa-plus"></i>Add</a>
                     </div>
                 </div>
             </div>

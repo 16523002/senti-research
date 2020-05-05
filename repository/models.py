@@ -72,6 +72,10 @@ class ResearchRespondent(models.Model):
     rr_updated_at = models.DateTimeField(auto_now=True)
     research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE, null=True)
 
+class ProjectRespondent(models.Model):
+    respondent = models.ForeignKey(ResearchRespondent, on_delete=models.CASCADE)
+    research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE)
+
 class ResearchQuestion(models.Model):
     question = models.TextField()
     research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE)
