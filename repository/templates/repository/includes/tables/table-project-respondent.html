@@ -18,18 +18,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for projectrespondent in projectrespondents %}
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ projectrespondent.respondent.rr_name }}</td>
+                                <td>{{ projectrespondent.respondent.rr_birth }}</td>
+                                <td>{{ projectrespondent.respondent.rr_gender }}</td>
+                                <td>{{ projectrespondent.respondent.rr_registered_at }}</td>
                                 <td>
                                     <div class="btn-list">
-                                        <a href="" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                                        <a href="{% url 'rprespondentdelete' pk=projectrespondent.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                                     </div>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -45,6 +47,9 @@
                     <div class="text-right">
                         <a href="#" class="btn btn-success"  data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i>Add</a>
                     </div>
+                    {% if message %}
+                        <script>alert("Respondent Not Found")</script>
+                    {% endif %}
                 </div>
             </div>
         </div>

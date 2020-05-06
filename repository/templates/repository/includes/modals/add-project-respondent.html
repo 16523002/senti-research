@@ -13,7 +13,8 @@
          <div class="modal-body">
              <h6>Fill in the name of the Respondent you want to add to this project</h6>
              <hr>
-             <form action="#">
+             <form action="" method="POST">
+                {% csrf_token %}
                 <div class="form-body">
                    <div class="form-group row">
                        <label class="col-md-2">Name:</label>
@@ -22,7 +23,8 @@
                                <div class="col-md-12">
                                    <div class="form-group">
                                        <div class="form-row ">
-                                           <input type="text" class="form-control" id="input-email" placeholder="Enter Respondent's Name">
+                                           {{ projectrespondent_form.rp_respondent}}
+                                           {{ projectrespondent_form.rp_id }}
                                        </div>
                                    </div>
                                </div>

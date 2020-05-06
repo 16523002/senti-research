@@ -60,7 +60,8 @@ class AnswerForm(forms.Form):
     answer.widget.attrs.update({'class':'form-control', 'placeholder': 'Enter Answer' })
 
 class ProjectRespondentForm(forms.Form):
-    rp_respondent = forms.CharField(required=True, widget=forms.HiddenInput)
+    rp_respondent = forms.CharField(label='Respondent', max_length=255, required=True, help_text='Required')
+    rp_id = forms.CharField(required=True, widget=forms.HiddenInput)
 
-    rp_respondent.widget.attrs.update({'id':'respondent-hidden'})
-
+    rp_respondent.widget.attrs.update({'class': 'form-control', 'placeholder': 'Respondent\'s Name'})
+    rp_id.widget.attrs.update({'type':'hidden'})

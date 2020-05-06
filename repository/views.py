@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.contrib import messages
 from repository import models
 from repository import forms
+
 
 # Create your views here.
 def workspace(request):
@@ -50,7 +52,6 @@ def requestjoin(request):
      if(user == None):
           return redirect('signin')
      return render(request, 'repository/request-join.html')
-
 
 def researchbrief(request):
      return render(request, 'repository/research-brief.html')
@@ -108,10 +109,32 @@ def researchview(request, pk):
      if request.method == 'GET':
           if(user == None):
                return redirect('signin')
-     researchproject = models.ResearchProject.objects.get(pk=pk)
-     question = models.ResearchQuestion.objects.filter(research_project_id=pk)
-     return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'user': user, 'question_list': question})     
-      
+          projectrespondent_form = forms.ProjectRespondentForm(initial={'rp_id':pk})
+          researchproject = models.ResearchProject.objects.get(pk=pk)
+          question = models.ResearchQuestion.objects.filter(research_project_id=pk)
+          projectrespondents = models.ProjectRespondent.objects.filter(research_project_id=pk)
+          return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'projectrespondent_form': projectrespondent_form, 'user': user, 'question_list': question, 'projectrespondents':projectrespondents})     
+     elif request.method == 'POST':
+          print("Hello")
+          projectrespondent_form = forms.ProjectRespondentForm(request.POST)
+          if projectrespondent_form.is_valid():
+               print("Valid")
+               rp_respondent = projectrespondent_form.cleaned_data.get('rp_respondent')
+               rp_id = projectrespondent_form.cleaned_data.get("rp_id")
+               try:
+                    research_project = models.ResearchProject.objects.get(pk=rp_id)
+                    respondent = models.ResearchRespondent.objects.get(rr_name=rp_respondent)
+                    project_respondent = models.ProjectRespondent(respondent=respondent, research_project=research_project)
+                    project_respondent.save()
+               except models.ResearchRespondent.DoesNotExist :
+                    if(user == None):
+                         return redirect('signin')
+                    projectrespondent_form = forms.ProjectRespondentForm()
+                    researchproject = models.ResearchProject.objects.get(pk=pk)
+                    question = models.ResearchQuestion.objects.filter(research_project_id=pk)
+                    projectrespondents = models.ProjectRespondent.objects.filter(research_project_id=pk)
+                    return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'projectrespondent_form': projectrespondent_form, 'user': user, 'question_list': question, 'projectrespondents':projectrespondents, 'message':'Respondent Not found'})     
+     return redirect('researchview', pk)
 
 def researchedit(request, pk):
      user = is_auth(request)
@@ -206,13 +229,6 @@ def respondentnew(request):
                     respondent_form = forms.RespondentForm()
                     return render(request, 'repository/respondent-new.html', {'respondent_form': respondent_form, 'user': user})
 
-def  respondentadd(request):
-     # user = is_auth(request)
-     # respondent = models.ResearchRespondent.objects.filter(rr_of_company=user.company)
-     # if request.method == 'POST':
-     return redirect('researchview')
-
-
 def respondentlist(request):
      user = is_auth(request)
      if(user == None):
@@ -303,7 +319,13 @@ def questiondelete(request, pk):
      question = models.ResearchQuestion.objects.get(pk=pk)
      if question != None:
           question.delete()
-     return redirect('researchview')
+     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def rprespondentdelete(request, pk):
+     projectrespondent = models.ProjectRespondent.objects.get(pk=pk)
+     if projectrespondent != None:
+          projectrespondent.delete()
+     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def calendar(request):
      return render(request, 'respository/calendar.html') 
