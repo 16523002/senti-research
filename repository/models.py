@@ -82,7 +82,8 @@ class ResearchQuestion(models.Model):
 
 class ResearchAnswer(models.Model):
     answer = models.TextField()
-    research_question = models.OneToOneField(ResearchQuestion, on_delete=models.CASCADE)
-    research_respondent = models.OneToOneField(ResearchRespondent, on_delete=models.CASCADE)
-        
+    research_question = models.ForeignKey(ResearchQuestion, on_delete=models.CASCADE)
+    research_respondent = models.ForeignKey(ResearchRespondent, on_delete=models.CASCADE)
+    research_project = models.ForeignKey(ResearchProject, on_delete=models.CASCADE)
+    
 

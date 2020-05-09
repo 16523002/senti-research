@@ -1,0 +1,76 @@
+{% block content%}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Project Research Q&A</h4>
+                <h6 class="card-subtitle">The table shown below is the list of Respondents that has been registered and assigned to certain Research Projects. 
+                    Click the Name to see the details!</h6>
+                <div class="form-body">
+                    <div class="form-group row">
+                        <label class="col-md-2">Project:</label>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <p>{{ research_project.rp_title }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Respondent's Name:</label>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <p>{{ research_respondent.rr_name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-body">
+                    <h4 class="card-title">List of Questions and Answers</h4>
+                    <h6 class="card-subtitle">The table shown below is the list of Respondents that has been registered and assigned to certain Research Projects. 
+                        Click the Name to see the details!</h6>
+                    {% for answer in answers %}
+                    <div class="form-group row">
+                        <label class="col-md-2">Question:</label>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                    <label>{{ answer.research_question.question }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Answer:</label>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                    <label>{{ answer.answer }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

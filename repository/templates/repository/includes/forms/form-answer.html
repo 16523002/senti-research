@@ -1,5 +1,8 @@
 {% block content%}
-<form action="#">
+<form action="" method="POST"  onsubmit="submitAnswers()"> 
+    {% csrf_token %}
+    {{ answer_form.answer_hidden }}
+    {% for question in questions %}
     <div class="form-body">
         <div class="form-group row">
             <label class="col-md-2">Question:</label>
@@ -7,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                           <label>This is the Question</label>
+                           <label>{{ question.question }}</label>
                         </div>
                     </div>
                 </div>
@@ -20,7 +23,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="form-group">
-                                <textarea class="form-control" rows="3" placeholder="Describe Your Research Project..."></textarea>
+                                <textarea class="form-control answer-question" data="{{ question.id }}" rows="3" placeholder="Describe Your Research Project..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -28,6 +31,8 @@
             </div>
         </div>
     </div>
+    <hr>
+    {% endfor %}
     <div class="form-actions">
         <div class="text-right">
             <button type="submit" class="btn btn-info">Submit</button>
@@ -35,4 +40,26 @@
         </div>
     </div>
 </form>
+{% endblock %}
+
+{% block answer_js %}
+<script>
+    function submitAnswers(){
+        var writtenAnswers = [];
+        var allAnswersObject = document.getElementsByClassName("answer-question");
+        for (var i = 0; i < allAnswersObject.length; i++){
+            //console.log(allAnswersObject[i])
+            var key = allAnswersObject[i].getAttribute("data") + "";
+            console.log(key)
+            var value = allAnswersObject[i].value;
+            var answer = {};
+            answer[key] = value;
+            writtenAnswers.push(answer)
+        }
+
+        decodedAnswers = JSON.stringify(writtenAnswers);
+        console.log(decodedAnswers);
+        document.getElementById("id_answer_hidden").value = decodedAnswers;
+    }
+</script>
 {% endblock %}

@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib import messages
 from repository import models
 from repository import forms
+from datetime import datetime
+from datetime import timedelta
+from openpyxl import Workbook
+from django.http import HttpResponse
+import json
 
 
 # Create your views here.
@@ -111,9 +116,10 @@ def researchview(request, pk):
                return redirect('signin')
           projectrespondent_form = forms.ProjectRespondentForm(initial={'rp_id':pk})
           researchproject = models.ResearchProject.objects.get(pk=pk)
+          projectmember = models.ProjectMember.objects.filter(research_project_id=pk)
           question = models.ResearchQuestion.objects.filter(research_project_id=pk)
           projectrespondents = models.ProjectRespondent.objects.filter(research_project_id=pk)
-          return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'projectrespondent_form': projectrespondent_form, 'user': user, 'question_list': question, 'projectrespondents':projectrespondents})     
+          return render(request, 'repository/research-view.html', {'researchproject': researchproject, 'projectmember':projectmember, 'projectrespondent_form': projectrespondent_form, 'user': user, 'question_list': question, 'projectrespondents':projectrespondents})     
      elif request.method == 'POST':
           print("Hello")
           projectrespondent_form = forms.ProjectRespondentForm(request.POST)
@@ -327,5 +333,102 @@ def rprespondentdelete(request, pk):
           projectrespondent.delete()
      return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def answeradd(request, pk, respondent):
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+          else :
+               answer_form = forms.AnswerForm()
+               questions = models.ResearchQuestion.objects.filter(research_project=pk)
+               return render(request, 'repository/answer-add.html', {'answer_form':answer_form, 'user': user, 'questions':questions})
+     elif request.method == 'POST':
+          answer_form = forms.AnswerForm(request.POST)
+          if answer_form.is_valid():
+               answer = answer_form.cleaned_data.get('answer_hidden')
+               decodedAnswers = json.JSONDecoder().decode(answer)
+               #print(type(decodedAnswers))
+               for answer in decodedAnswers:
+                    question_id = next(iter(answer))
+                    value = answer[question_id]
+                    research_project = models.ResearchProject.objects.get(pk=pk)
+                    research_respondent = models.ResearchRespondent.objects.get(pk=respondent)
+                    question = models.ResearchQuestion.objects.get(pk=int(question_id))
+                    saved_answer = models.ResearchAnswer(research_question=question, answer=value, research_respondent=research_respondent, research_project=research_project)
+                    saved_answer.save()
+               return redirect('researchview', pk)          
+     return render(request, 'repository/answer-add.html') 
+
+def answerview(request, pk, respondent):
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+     research_project = models.ResearchProject.objects.get(pk=pk)
+     research_respondent = models.ResearchRespondent.objects.get(pk=respondent)
+     questions = models.ResearchQuestion.objects.filter(research_project=pk)
+     answers = models.ResearchAnswer.objects.filter(research_respondent=research_respondent, research_project=pk)
+     return render(request, 'repository/answer-view.html', {'research_project':research_project, 'research_respondent': research_respondent, 'questions': questions, 'answers':answers, 'user':user})
+
+def workspacedetail(request):
+     user = is_auth(request)
+     if request.method == 'GET':
+          if(user == None):
+               return redirect('signin')
+     company = models.Company.objects.get(id=user.company_id)
+     users = models.User.objects.filter(company_id=company.id)
+     roles = models.Role.objects.filter()
+     return render(request, 'repository/workspace-view.html', {'company':company, 'users':users, 'roles':roles, 'user':user}) 
+
+
+def converttoexcel(request, pk):
+     research_project = models.ResearchProject.objects.get(pk=pk)
+     answers_query = models.ResearchAnswer.objects.filter(research_project=pk)
+
+     response = HttpResponse(
+          content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+     )
+     response['Content-Disposition'] = 'attachment; filename=answer.xlsx'
+    
+     workbook = Workbook()
+
+     # Get active worksheet/tab
+     worksheet = workbook.active
+     worksheet.title = 'answers'
+
+     # Define the titles for columns
+     columns = [
+          'answers',
+     ]
+     row_num = 0
+
+     # Assign the titles for each cell of the header
+     # for col_num, column_title in enumerate(columns, 1):
+     #     cell = worksheet.cell(row=row_num, column=col_num)
+     #     cell.value = column_title
+
+     # Iterate through all movies
+     for researchanswer in answers_query:
+          row_num += 1
+     # Define the data for each cell in the row 
+          row = [
+               researchanswer.answer,
+          ]
+
+     # Assign the data for each cell of the row 
+          for col_num, cell_value in enumerate(row, 1):
+               cell = worksheet.cell(row=row_num, column=col_num)
+               cell.value = cell_value
+    
+     sheet=workbook.active
+     max_row = sheet.max_row
+     max_column = sheet.max_column
+
+     for row_num in range(1, max_row+1):
+          for col_num in range(1, max_column+1):
+               cell=sheet.cell(row=row_num, column=col_num)
+               print(cell.value,end=' | ')
+          print('\n')
+
 def calendar(request):
-     return render(request, 'respository/calendar.html') 
+     return render(request, 'repository/calendar.html') 

@@ -3,31 +3,31 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Research Project Details</h4>
+                <h4 class="card-title">Company/Organization Information</h4>
                 <h6 class="card-subtitle">The table shown below is the list of Respondents that has been registered and assigned to certain Research Projects. 
                     Click the Name to see the details!</h6>
             <form action="" method="">
                 <div class="form-body">
                     <div class="form-group row">
-                        <label class="col-md-2">Name/Title:</label>
+                        <label class="col-md-2">Name:</label>
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p>{{researchproject.rp_title}}</p>
+                                        <p>{{company.company_name}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2">Description:</label>
+                        <label class="col-md-2">Code:</label>
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <p>{{researchproject.rp_desc}}</p>
+                                            <p>{{company.company_code}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -35,49 +35,37 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2">Project Schedule:</label>
+                        <label class="col-md-2">Registerer:</label>
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <h6 class="card-subtitle">Start</h6>
-                                            <p>{{researchproject.rp_time_start}}</p>
+                                            <h6 class="card-subtitle">Name</h6>
+                                            <p>{{company.registerer_name}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h6 class="card-subtitle">Deadline</h6>
-                                        <p>{{researchproject.rp_time_end}}</p>
+                                        <h6 class="card-subtitle">Email</h6>
+                                        <p>{{company.registerer_email}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2">Project Member:</label>
+                        <label class="col-md-2">Registered:</label>
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h6 class="card-subtitle">Person in Charge</h6>
-                                        <p>{{researchproject.rp_pic.email}}</p>
+                                        <p>{{company.company_registered_at}}</p>
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <h6 class="card-subtitle">Members</h6>
-                                        <p>{{researchproject.projectmember}}</p>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <div class="text-right">
-                        <a href="{% url 'researchedit' pk=researchproject.id %}" class="btn btn-primary"><i class="fas fa-edit"></i>Edit</a>
                     </div>
                 </div>
             </form>

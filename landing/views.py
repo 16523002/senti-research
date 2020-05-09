@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from landing.auth import AuthBackend, hashing_password
-from landing.forms import RegisterForm, UserSignUpForm, UserSignInForm, JoinForm
-from repository.models import Company, User, Role, Request
+from landing import forms
+from repository import models
 from django.contrib.auth.hashers import make_password
 from django.core import serializers
 from repository.views import is_auth

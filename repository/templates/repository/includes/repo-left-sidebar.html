@@ -74,7 +74,13 @@
                            </a>
                        </li>
                        {% endif %}
-                       {% if user.email == company.registerer_email %}
+                       <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="{% url 'workspacedetail' %}" aria-expanded="false">
+                            <i data-feather="briefcase" class="feather-icon"></i>
+                            <span class="hide-menu">Workspace Detail</span>
+                        </a>
+                    </li>
+                       {% if user.email == user.company.registerer_email %}
                        <li class="sidebar-item">
                             <a class="sidebar-link sidebar-link" href="{% url 'join' %}" aria-expanded="false">
                                 <i data-feather="users" class="feather-icon"></i>

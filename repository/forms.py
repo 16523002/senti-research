@@ -55,9 +55,11 @@ class QuestionForm(forms.Form):
     question.widget.attrs.update({'id':'question-hidden'})
 
 class AnswerForm(forms.Form):
-    answer = forms.CharField(label='Answer', required=True, help_text='Required', widget=forms.Textarea)
+    answer_hidden = forms.CharField(required=True, widget=forms.HiddenInput)
+    # question = forms.CharField(required=True, widget=forms.HiddenInput)
 
-    answer.widget.attrs.update({'class':'form-control', 'placeholder': 'Enter Answer' })
+    answer_hidden.widget.attrs.update({'type':'hidden'})
+    # question.widget.attrs.update({'type':'hidden'})
 
 class ProjectRespondentForm(forms.Form):
     rp_respondent = forms.CharField(label='Respondent', max_length=255, required=True, help_text='Required')

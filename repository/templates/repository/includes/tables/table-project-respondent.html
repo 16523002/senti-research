@@ -27,6 +27,8 @@
                                 <td>{{ projectrespondent.respondent.rr_registered_at }}</td>
                                 <td>
                                     <div class="btn-list">
+                                        <a href="{% url 'answerview' pk=researchproject.id respondent=projectrespondent.respondent_id %}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                                        <a href="{% url 'answeradd' pk=researchproject.id respondent=projectrespondent.respondent_id %}" class="btn btn-primary"><i class="far fa-file"></i></a>
                                         <a href="{% url 'rprespondentdelete' pk=projectrespondent.id %}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                                     </div>
                                 </td>
