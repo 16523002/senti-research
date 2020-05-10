@@ -44,13 +44,15 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Create a New Research Project</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Edit Respondent</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Workspace</a></li>
-                                    <li class="breadcrumb-item"><a href="index.html">Research Project</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Create New</li>
+                                    <li class="breadcrumb-item"><a href="{% url 'workspace' %}">Workspace</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'researchlist' %}">Research Project</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'respondentlist' %}">Research Respondent</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'respondentlist' pk=respondent.id%}">Respondent Details</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Edit Respondent</li>
                                 </ol>
                             </nav>
                         </div>
@@ -58,9 +60,7 @@
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
+                                <option selected>May 2020</option>
                             </select>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">New Research Project</h4>
+                                <h4 class="card-title">Research Respondent Form</h4>
                                 <!-- ========= FORM NEW RESEARCH PROJECT ========= -->
                                 {% include "repository/includes/forms/form-respondent.html" %}
                             </div>

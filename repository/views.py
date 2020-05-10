@@ -59,7 +59,10 @@ def requestjoin(request):
      return render(request, 'repository/request-join.html')
 
 def researchbrief(request):
-     return render(request, 'repository/research-brief.html')
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
+     return render(request, 'repository/research-brief.html', {'user':user})
 
 def researchnew(request):
      user = is_auth(request)
@@ -165,7 +168,7 @@ def researchedit(request, pk):
                     'rp_time_end' : researchproject.rp_time_end,
                     'rp_pic' : user.email,
                     'member_hidden': member_hidden  })
-               return render(request, 'repository/research-edit.html', {'researchproject_form': research_form, 'user': user, 'company_members':company_members, 'selected_users': selectedUsers})
+               return render(request, 'repository/research-edit.html', {'researchproject_form': research_form, 'user': user, 'company_members':company_members, 'selected_users': selectedUsers, 'researchproject':researchproject})
      elif request.method == 'POST':
           rp_form = forms.ResearchProjectForm(request.POST)
           if rp_form.is_valid():
@@ -264,7 +267,7 @@ def respondentedit(request, pk):
                     'rr_occupation' : respondent.rr_occupation,
                     'rr_gender' : respondent.rr_gender,
                     'rr_birth' : respondent.rr_birth })
-               return render(request, 'repository/respondent-edit.html', {'respondent_form': respondent_form})
+               return render(request, 'repository/respondent-edit.html', {'respondent_form': respondent_form, 'respondent':respondent})
      elif request.method == 'POST':
           rr_form = forms.RespondentForm(request.POST)
           if rr_form.is_valid():
@@ -303,7 +306,8 @@ def questionadd(request, pk):
                return redirect('signin')
           else :
                question_form = forms.QuestionForm()
-               return render(request, 'repository/question-add.html', {'question_form': question_form, 'user': user})
+               research_project = models.ResearchProject.objects.get(pk=pk)
+               return render(request, 'repository/question-add.html', {'question_form': question_form, 'user': user, 'research_project':research_project})
      elif request.method == 'POST':
           question_form = forms.QuestionForm(request.POST)
           if question_form.is_valid():
@@ -340,8 +344,9 @@ def answeradd(request, pk, respondent):
                return redirect('signin')
           else :
                answer_form = forms.AnswerForm()
+               research_project = models.ResearchProject.objects.get(pk=pk)
                questions = models.ResearchQuestion.objects.filter(research_project=pk)
-               return render(request, 'repository/answer-add.html', {'answer_form':answer_form, 'user': user, 'questions':questions})
+               return render(request, 'repository/answer-add.html', {'answer_form':answer_form, 'user': user, 'research_project':research_project, 'questions':questions})
      elif request.method == 'POST':
           answer_form = forms.AnswerForm(request.POST)
           if answer_form.is_valid():

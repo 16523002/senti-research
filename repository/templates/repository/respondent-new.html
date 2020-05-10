@@ -48,9 +48,10 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Workspace</a></li>
-                                    <li class="breadcrumb-item"><a href="index.html">Research Project</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Create New</li>
+                                    <li class="breadcrumb-item"><a href="{% url 'workspace' %}">Workspace</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'researchlist' %}">Research Project</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'respondentlist' %}">Research Respondent</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">New Respondent</li>
                                 </ol>
                             </nav>
                         </div>
@@ -58,9 +59,7 @@
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
+                                <option selected>May 2020</option>
                             </select>
                         </div>
                     </div>
