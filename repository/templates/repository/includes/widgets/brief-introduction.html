@@ -1,0 +1,70 @@
+{% block content%}
+{% load static %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title"></h3>
+            <div class="media">
+                <img class="align-self-center w-100 mr-3" src="{% static 'repository/assets/images/brief-header.png' %}"
+                    alt="Generic placeholder image">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title" style="text-align: center;">SentiResearch101</h2>
+            <div class="media">
+                <div class="media-body">
+                    <p class="mt-0" style="text-align: center;">SentiResearch is web-based application system that allows the user researcher and other role needed in doing qualitative research,
+                        to store, manage, and schedule research project and generate its sentiment based on the narrative of in-depth interview.
+                    </p>    
+                    <hr>
+                    <p class="mt-0" style="text-align: center;">The primary motivation behind building this application is to provide a single automated platform, 
+                        which serves as a complete end-to-end system for sentiment analysis of customer feedbacks 
+                        in interview session along with the data visualization.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">User Interview101</h3>
+            <div class="media">
+                <div class="media-body">
+                    <h3 class="mt-0">What is User Interview?</h3>
+                    <p class="mt-0">In-depth interview is a qualitative research technique 
+                        that involves conducting intensive individual interviews with a small number of respondents 
+                        to explore their perspectives on a particular idea, program, or situation.
+                    </p>
+                    <h3 class="mt-0">Why Do User Interviews?</h3>
+                    <p class="mt-0">Interviews give insights into what users think about a site, an application, a product, or a process. 
+                        They can point out what site content is memorable, what people feel is important on the site, 
+                        and what ideas for improvement they may have. 
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 mt-4">
+        <!-- Card -->
+        <div class="card text-center">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <h4 class="card-title">User Interviews: How, When, and Why to Conduct Them</h4>
+                <p class="card-text">Do you want to learn and find out more about conducting a user interview?</p>
+                <a href="{% url 'researchbrief' %}" class="btn btn-info">Yes, Please!</a>
+            </div>
+            <div class="card-footer text-muted"></div>
+        </div>
+        <!-- Card -->
+    </div>
+</div>
+{% endblock %}

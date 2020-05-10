@@ -1,5 +1,8 @@
 {% include "repository/includes/repo-header.html" %}
 {% load static %}
+<head>
+    <title>Create New Research Project - SentiResearch Workspace</title>
+</head>
 
 <body>
     {% block content %}
@@ -41,13 +44,14 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">How, When, and Why to Conduct User Interview</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Create a New Research Project</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="{% url 'workspace' %}">Workspace</a></li>
-                                    <li class="breadcrumb-item"><a href="{% url 'researchintro' %}">Introduction</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Research Brief</li>
+                                    <li class="breadcrumb-item"><a href="{% url 'researchlist' %}">Research Project</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'respondentlist' %}">Research Respondent</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">New Respondent</li>
                                 </ol>
                             </nav>
                         </div>
@@ -71,10 +75,20 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-            
-                <!-- ========= FORM NEW RESEARCH PROJECT ========= -->
-                {% include "repository/includes/widgets/brief-detail.html" %}
-                            
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">New Research Project</h4>
+                                <!-- ========= FORM NEW RESEARCH PROJECT ========= -->
+                                <p>{{ total_hasil_positif }}</p>
+                                <p>{{ total_hasil_negatif }}</p>
+                                <p>{{ total_hasil_sentiment }}</p>
+                                <p>{{ nilai }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->

@@ -15,7 +15,7 @@
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Projects</span></li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link sidebar-link" href="{% url 'researchbrief' %}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link" href="{% url 'researchintro' %}" aria-expanded="false">
                                 <i data-feather="help-circle" class="feather-icon"></i>
                                 <span class="hide-menu">Research Brief</span>
                             </a>
@@ -82,7 +82,7 @@
                     </li>
                        {% if user.email == user.company.registerer_email %}
                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="{% url 'join' %}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link" href="{% url 'requestjoin' %}" aria-expanded="false">
                                 <i data-feather="users" class="feather-icon"></i>
                                 <span class="hide-menu">Manage Members</span>
                             </a>

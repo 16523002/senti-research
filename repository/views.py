@@ -50,13 +50,14 @@ def profileedit(request):
      user = is_auth(request)
      if(user == None):
           return redirect('signin')
-     return render(request, 'repository/profile-view.html')
+     return render(request, 'repository/profile-view.html', {'user':user})
 
-def requestjoin(request):
+def researchintro(request):
      user = is_auth(request)
      if(user == None):
           return redirect('signin')
-     return render(request, 'repository/request-join.html')
+     requests = models.Request.objects.filter(company=user.company)
+     return render(request, 'repository/research-intro.html', {'requests':requests, 'user':user})
 
 def researchbrief(request):
      user = is_auth(request)
@@ -375,6 +376,14 @@ def answerview(request, pk, respondent):
      answers = models.ResearchAnswer.objects.filter(research_respondent=research_respondent, research_project=pk)
      return render(request, 'repository/answer-view.html', {'research_project':research_project, 'research_respondent': research_respondent, 'questions': questions, 'answers':answers, 'user':user})
 
+def requestjoin(request):
+     user = is_auth(request)
+     if(user == None):
+          return redirect('signin')
+     company = models.Company.objects.get(id=user.company_id)
+     requests = models.Request.objects.filter(company_id=company.id)
+     return render(request, 'repository/requestjoin-list.html', {'company':company, 'requests':requests, 'user':user})
+
 def workspacedetail(request):
      user = is_auth(request)
      if request.method == 'GET':
@@ -382,58 +391,8 @@ def workspacedetail(request):
                return redirect('signin')
      company = models.Company.objects.get(id=user.company_id)
      users = models.User.objects.filter(company_id=company.id)
-     roles = models.Role.objects.filter()
+     roles = models.Role.objects.filter(id=user.role_id)
      return render(request, 'repository/workspace-view.html', {'company':company, 'users':users, 'roles':roles, 'user':user}) 
-
-
-def converttoexcel(request, pk):
-     research_project = models.ResearchProject.objects.get(pk=pk)
-     answers_query = models.ResearchAnswer.objects.filter(research_project=pk)
-
-     response = HttpResponse(
-          content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-     )
-     response['Content-Disposition'] = 'attachment; filename=answer.xlsx'
-    
-     workbook = Workbook()
-
-     # Get active worksheet/tab
-     worksheet = workbook.active
-     worksheet.title = 'answers'
-
-     # Define the titles for columns
-     columns = [
-          'answers',
-     ]
-     row_num = 0
-
-     # Assign the titles for each cell of the header
-     # for col_num, column_title in enumerate(columns, 1):
-     #     cell = worksheet.cell(row=row_num, column=col_num)
-     #     cell.value = column_title
-
-     # Iterate through all movies
-     for researchanswer in answers_query:
-          row_num += 1
-     # Define the data for each cell in the row 
-          row = [
-               researchanswer.answer,
-          ]
-
-     # Assign the data for each cell of the row 
-          for col_num, cell_value in enumerate(row, 1):
-               cell = worksheet.cell(row=row_num, column=col_num)
-               cell.value = cell_value
-    
-     sheet=workbook.active
-     max_row = sheet.max_row
-     max_column = sheet.max_column
-
-     for row_num in range(1, max_row+1):
-          for col_num in range(1, max_column+1):
-               cell=sheet.cell(row=row_num, column=col_num)
-               print(cell.value,end=' | ')
-          print('\n')
 
 def calendar(request):
      return render(request, 'repository/calendar.html') 

@@ -13,24 +13,24 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for request in requests %}
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ request.requester.user_first_name }} {{ request.requester.user_last_name }}</td>
+                                <td>{{ request.requester.email }}</td>
+                                <td>{{ request.request_role.role_title }}</td>
                                 <td>
                                     <div class="btn-list">
-                                        <a href="" class="btn btn-success">Activate</a>
-                                        <a href="" class="btn btn-danger">Deactivate</a>                                 
+                                        <a href="" class="btn btn-success">Activated</a>
+                                        <a href="" class="btn btn-danger">Deactivated</a>                                 
                                     </div>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -38,7 +38,6 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>

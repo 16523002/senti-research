@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'landing.apps.LandingConfig',
     'repository.apps.RepositoryConfig',
+    'sentiment.apps.SentimentConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

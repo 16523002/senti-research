@@ -7,6 +7,7 @@ urlpatterns = [
     path('profile-edit/', views.profileedit, name='profileedit'), #FORM:  this is to edit user's profile 
     path('request-join/', views.requestjoin, name='requestjoin'), #TABLE:  this is to see and activicate user's company joining request 
     path('workspace/research-brief/', views.researchbrief, name='researchbrief'), #this is the static page for research brief
+    path('workspace/research-intro/', views.researchintro, name='researchintro'), #this is the static page for research brief
     path('workspace/research-new/', views.researchnew, name='researchnew'),  #FORM:  this is the form to create new research project
     path('workspace/research-list/', views.researchlist, name='researchlist'), #TABLE:  this is the table to see the entire list of research projects
     path('workspace/<str:pk>/research-view/', views.researchview, name='researchview'), #TABLE:  this is the page to see the details of certain research project
@@ -22,8 +23,7 @@ urlpatterns = [
     path('workspace/<str:pk>/question-delete/', views.questiondelete, name='questiondelete'), #FORM: this is the delete to edit questions
     path('workspace/<str:pk>/<str:respondent>/answer-add/', views.answeradd, name='answeradd'),
     path('workspace/<str:pk>/<str:respondent>/answer-view/', views.answerview, name='answerview'),
-    path('workspace/detail/', views.workspacedetail, name='workspacedetail'),
-    path('converttoexcel/<str:pk>', views.converttoexcel, name='converttoexcel'), 
+    path('workspace/detail/', views.workspacedetail, name='workspacedetail'), 
     path('workspace/calendar/', views.calendar, name='calendar'), #this is the calendar page
     path('logout/', views.logout, name='logout'), #logout
 ]

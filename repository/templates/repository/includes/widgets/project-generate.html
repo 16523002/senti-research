@@ -7,7 +7,7 @@
             <div class="card-body">
                 <h4 class="card-title">Generate Sentiment Analysis Chart</h4>
                 <p class="card-text">By generating chart you will be able to see the sentiment analysis result of this research project.</p>
-                <a href="{% url 'converttoexcel' pk=researchproject.id %}" class="btn btn-info">Generate</a>
+                <a href="{% url 'generate_sentiment' pk=researchproject.id %}" class="btn btn-info">Generate</a>
             </div>
             <div class="card-footer text-muted"></div>
         </div>
