@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Overall Sentiment Score</h4>
+                <div class="row">
+                    <!-- Column -->
+                    {% if nilai == 'POSITIVE' %}
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 text-center" style="background-color: darkgray;">
+                                <h1 class="font-light" style="color:deepskyblue; font-weight: bold;">{{ nilai }}</h1>
+                                <h6 class="text-white">Sentiment Analysis Result</h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif nilai == 'NEGATIVE' %}
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 text-center" style="background-color: darkgray;">
+                                <h1 class="font-light" style="color: crimson; font-weight: bold;">{{ nilai }}</h1>
+                                <h6 class="text-white">Sentiment Analysis Result</h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 text-center" style="background-color: darkgray;">
+                                <h1 class="font-light" style="color:black; font-weight: bold;">{{ nilai }}</h1>
+                                <h6 class="text-white">Sentiment Analysis Result</h6>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 bg-success text-center">
+                                <h1 class="font-light text-white" id="positive-count" data="{{total_hasil_positif}}">{{ total_hasil_positif }}</h1>
+                                <h6 class="text-white">Total Positive Score</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 bg-danger text-center">
+                                <h1 class="font-light text-white" id="negative-count" data="{{total_hasil_negatif}}">{{ total_hasil_negatif }}</h1>
+                                <h6 class="text-white">Total Negative Score</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="p-2 bg-primary text-center">
+                                <h1 class="font-light text-white">{{ total_hasil_sentiment }}</h1>
+                                <h6 class="text-white">Sentiment Final Score</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

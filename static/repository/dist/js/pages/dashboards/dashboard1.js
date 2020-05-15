@@ -8,9 +8,9 @@ $(function () {
         bindto: '#campaign-v2',
         data: {
             columns: [
-                ['Direct Sales', 25],
-                ['Referral Sales', 15],
-                ['Afilliate Sales', 10],
+                ['Positive', 25],
+                ['Negative', 15],
+                ['Neutral', 10],
                 ['Indirect Sales', 15]
             ],
 

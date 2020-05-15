@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'chartjs',
+    'controlcenter',
 
 
     #allauth
@@ -143,7 +145,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'media')
 )
 
-
+# django-controlcenter CHARTISTJS
+CONTROLCENTER_DASHBOARDS = (
+    ('mydash', 'project.dashboards.MyDashboard'),
+)
 
 
 # This is for deploy to server, once you're ready to deploy

@@ -2,12 +2,11 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from repository import models
 from datetime import datetime
 from datetime import timedelta
+from wordcloud import WordCloud
 from openpyxl import Workbook, load_workbook
 import os
 
 url = os.path.join(os.path.dirname(os.path.dirname(__file__)),'sentiment/inset.xlsx')
-
-# url = staticfiles_storage.url('sentiment/inset.xlsx')
 inSetLexicon = load_workbook(url)
 negatif = inSetLexicon['negatif']
 positif = inSetLexicon['positif']
@@ -37,7 +36,7 @@ def stopwordRemoval(data):
         hasil.append(stopword.remove(kata))
     for kata in hasil:
         if kata != '':
-            hasil2.append(kata) 
+            hasil2.append(kata)
     return hasil2
 
 # -------------PUNCTUATION REMOVAL & CASE CONVERSION-------------
@@ -255,8 +254,8 @@ def sentiWordAfterStem(hasilPraproses, paramNGramPositif, paramNGramNegatif):
     for kata in paramNGramNegatif:
         arrNegatif.append(kata)
     
-    print('arrPositif: ', arrPositif)
-    print('arrNegatif: ', arrNegatif)
+    # print('arrPositif: ', arrPositif)
+    # print('arrNegatif: ', arrNegatif)
     
     return arrPositif, arrNegatif
 
@@ -275,8 +274,8 @@ def sentimentScore(hasilPositif, hasilNegatif):
         countNegatif = countNegatif + arr[1]
 
     
-    # print('countPositif: ', countPositif)
-    # print('countNegatif: ', countNegatif)
+    print('countPositif: ', countPositif)
+    print('countNegatif: ', countNegatif)
 
     sentimentScore = countNegatif + countPositif
  
@@ -303,6 +302,7 @@ def counting_sentiment(research_project):
     total_hasil_sentiment = 0
     total_hasil_positif = 0
     total_hasil_negatif = 0
+    preprocessed_word = tuple()
     for answer in answers:
         dataStatis = answer.answer
         hasilToken = tokenization(dataStatis)
@@ -312,8 +312,10 @@ def counting_sentiment(research_project):
         hasilStopWord = stopwordRemoval(hasilNoPuct)
         hasilPraprosesCoding = hasilStopWord
 
-        # print('hasil praposes: ', hasilPraprosesCoding)
-        
+        print('hasil praposes: ', hasilPraprosesCoding)
+
+        preprocessed_word = preprocessed_word + tuple(hasilPraprosesCoding)
+
         hasilPositif, hasilNegatif = sentiWordAfterStem(hasilPraprosesCoding, ngramPositif, ngramNegatif)
         countPositif, countNegatif, hasilSentimen = sentimentScore(hasilPositif, hasilNegatif)
 
@@ -325,9 +327,15 @@ def counting_sentiment(research_project):
     # print('hasil total negatif: ', total_hasil_negatif)
     # print('hasil total sentimen score: ', total_hasil_sentiment)
     nilai = cekSentimen(total_hasil_sentiment)
-    return total_hasil_positif, total_hasil_negatif, total_hasil_sentiment, nilai
+    data_for_word_cloud = create_wordcloud_dictionary(preprocessed_word)
+    return total_hasil_positif, total_hasil_negatif, total_hasil_sentiment, nilai, data_for_word_cloud
 
+def create_wordcloud_dictionary(preprocess):
+    data = dict()
 
+    for word in preprocess:
+        data[word] = data.get(word, 0) + 1
+    return data
 
 # def converttoexcel(pk):
 #      research_project = models.ResearchProject.objects.get(pk=pk)

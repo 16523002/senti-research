@@ -1,0 +1,57 @@
+{% block content%}
+<div class="col-lg-4 col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Research Project in Total</h4>
+            <div class="senti-bar-chart mt-4 position-relative" style="height:294px;"></div>
+            <ul class="list-inline text-center mt-5 mb-2">
+                <li class="list-inline-item text-muted font-italic">Research Project</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block barchart_js %}
+<script>
+    var negatifCount = document.getElementById("negative-count").getAttribute("data");
+    var positifCount = document.getElementById("positive-count").getAttribute("data");
+    $(document).ready(function(){
+        var data = {
+        labels: ['Neg', 'Pos'],
+        series: [
+            [Math.abs(negatifCount), positifCount]
+        ]
+    };
+
+    var options = {
+        axisX: {
+            showGrid: false
+        },
+        seriesBarDistance: 1,
+        chartPadding: {
+            top: 15,
+            right: 15,
+            bottom: 5,
+            left: 0
+        },
+        plugins: [
+            Chartist.plugins.tooltip()
+        ],
+        width: '100%'
+    };
+
+    var responsiveOptions = [
+        ['screen and (max-width: 640px)', {
+            seriesBarDistance: 5,
+            axisX: {
+                labelInterpolationFnc: function (value) {
+                    return value[0];
+                }
+            }
+        }]
+    ];
+    new Chartist.Bar('.senti-bar-chart', data, options, responsiveOptions);
+    });
+</script>
+{% endblock %}
